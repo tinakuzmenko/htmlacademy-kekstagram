@@ -70,6 +70,7 @@ var pushElements = function (amount) {
     var newElement = createPictureDescription(i + 1, 'Здесь должно быть описание');
     elements.push(newElement);
   }
+
   return elements;
 };
 
