@@ -20,9 +20,8 @@ var ALL_COMMENTS = [
 var ELEMENTS_AMOUNT = 25;
 
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-var elementsList = [];
-var fragment = document.createDocumentFragment();
 var usersPictures = document.querySelector('.pictures');
+var elementsList = [];
 
 var getRandomInt = function (min, max) {
   min = Math.ceil(min);
@@ -48,7 +47,7 @@ var createCommentsArray = function () {
   var commentsAmount = getRandomInt(1, 10);
   var comments = [];
   for (var i = 0; i <= commentsAmount; i++) {
-    comments.push(getRandomArrayElement(ALL_COMMENTS));
+    comments.push(createUsersComment());
   }
 
   return comments;
@@ -68,12 +67,9 @@ var createPictureDescription = function (photoIndex, description) {
 var pushElements = function (amount) {
   var elements = [];
   for (var i = 0; i < amount; i++) {
-    createUsersComment();
-    createCommentsArray();
     var newElement = createPictureDescription(i + 1, 'Здесь должно быть описание');
     elements.push(newElement);
   }
-
   return elements;
 };
 
@@ -87,12 +83,14 @@ var createPictureElement = function (picture) {
   return pictureElement;
 };
 
-var addToFragment = function (pictures) {
-  for (var i = 0; i < pictures.length; i++) {
-    fragment.appendChild(createPictureElement(pictures[i]));
+var addToFragment = function () {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < elementsList.length; i++) {
+    fragment.appendChild(createPictureElement(elementsList[i]));
   }
+
+  return fragment;
 };
 
 elementsList = pushElements(ELEMENTS_AMOUNT);
-addToFragment(elementsList);
-usersPictures.appendChild(fragment);
+usersPictures.appendChild(addToFragment());
