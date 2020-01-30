@@ -17,10 +17,10 @@ var ALL_COMMENTS = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
-
-var PICTURE_TEMPLATE = document.querySelector('#picture').content.querySelector('.picture');
 var ELEMENTS_AMOUNT = 25;
-var ELEMENTS_LIST = [];
+
+var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+var elementsList = [];
 var fragment = document.createDocumentFragment();
 var usersPictures = document.querySelector('.pictures');
 
@@ -31,52 +31,54 @@ var getRandomInt = function (min, max) {
 };
 
 var getRandomArrayElement = function (array) {
-  var randomIndex = getRandomInt(0, array.length - 1);
-  return array[randomIndex];
+  return array[getRandomInt(0, array.length - 1)];
 };
 
-var createUsersComment = function (comments, names) {
+var createUsersComment = function () {
   var usersComment = {
     avatar: 'img/avatar-' + getRandomInt(1, 6) + '.svg',
-    message: getRandomArrayElement(comments),
-    name: getRandomArrayElement(names)
+    message: getRandomArrayElement(ALL_COMMENTS),
+    name: getRandomArrayElement(NAMES)
   };
 
   return usersComment;
 };
 
-var createCommentsArray = function (comments) {
+var createCommentsArray = function () {
   var commentsAmount = getRandomInt(1, 10);
-  var commentsArray = [];
+  var comments = [];
   for (var i = 0; i <= commentsAmount; i++) {
-    commentsArray.push(getRandomArrayElement(comments));
+    comments.push(getRandomArrayElement(ALL_COMMENTS));
   }
 
-  return commentsArray;
+  return comments;
 };
 
-var createPictureDescription = function (photoIndex, description, comments) {
+var createPictureDescription = function (photoIndex, description) {
   var pictureDescription = {
     url: 'photos/' + photoIndex + '.jpg',
     description: description,
     likes: getRandomInt(15, 200),
-    comments: createCommentsArray(comments)
+    comments: createCommentsArray()
   };
 
   return pictureDescription;
 };
 
-var pushElements = function (amount, commentsArray, namesArray, elementsArray) {
+var pushElements = function (amount) {
+  var elements = [];
   for (var i = 0; i < amount; i++) {
-    createUsersComment(commentsArray, namesArray);
-    createCommentsArray(commentsArray);
-    var newElement = createPictureDescription(i + 1, 'Здесь должно быть описание', commentsArray);
-    elementsArray.push(newElement);
+    createUsersComment();
+    createCommentsArray();
+    var newElement = createPictureDescription(i + 1, 'Здесь должно быть описание');
+    elements.push(newElement);
   }
+
+  return elements;
 };
 
 var createPictureElement = function (picture) {
-  var pictureElement = PICTURE_TEMPLATE.cloneNode(true);
+  var pictureElement = pictureTemplate.cloneNode(true);
 
   pictureElement.querySelector('.picture__img').src = picture.url;
   pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
@@ -85,12 +87,12 @@ var createPictureElement = function (picture) {
   return pictureElement;
 };
 
-var addToFragment = function (picturesArray) {
-  for (var i = 0; i < picturesArray.length; i++) {
-    fragment.appendChild(createPictureElement(picturesArray[i]));
+var addToFragment = function (pictures) {
+  for (var i = 0; i < pictures.length; i++) {
+    fragment.appendChild(createPictureElement(pictures[i]));
   }
 };
 
-pushElements(ELEMENTS_AMOUNT, ALL_COMMENTS, NAMES, ELEMENTS_LIST);
-addToFragment(ELEMENTS_LIST);
+elementsList = pushElements(ELEMENTS_AMOUNT);
+addToFragment(elementsList);
 usersPictures.appendChild(fragment);
