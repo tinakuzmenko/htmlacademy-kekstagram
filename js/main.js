@@ -65,12 +65,13 @@ var createPictureDescription = function (photoIndex, description) {
 };
 
 var pushElements = function (amount) {
+  var elements = [];
   for (var i = 0; i < amount; i++) {
     var newElement = createPictureDescription(i + 1, 'Здесь должно быть описание');
-    elementsList.push(newElement);
+    elements.push(newElement);
   }
 
-  return elementsList;
+  return elements;
 };
 
 var createPictureElement = function (picture) {
@@ -92,5 +93,5 @@ var addToFragment = function (elements) {
   return fragment;
 };
 
-pushElements(ELEMENTS_AMOUNT);
+elementsList = pushElements(ELEMENTS_AMOUNT);
 usersPictures.appendChild(addToFragment(elementsList));
