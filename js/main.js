@@ -65,13 +65,12 @@ var createPictureDescription = function (photoIndex, description) {
 };
 
 var pushElements = function (amount) {
-  var elements = [];
   for (var i = 0; i < amount; i++) {
     var newElement = createPictureDescription(i + 1, 'Здесь должно быть описание');
-    elements.push(newElement);
+    elementsList.push(newElement);
   }
 
-  return elements;
+  return elementsList;
 };
 
 var createPictureElement = function (picture) {
@@ -84,14 +83,14 @@ var createPictureElement = function (picture) {
   return pictureElement;
 };
 
-var addToFragment = function () {
+var addToFragment = function (elements) {
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < elementsList.length; i++) {
-    fragment.appendChild(createPictureElement(elementsList[i]));
+  for (var i = 0; i < elements.length; i++) {
+    fragment.appendChild(createPictureElement(elements[i]));
   }
 
   return fragment;
 };
 
-elementsList = pushElements(ELEMENTS_AMOUNT);
-usersPictures.appendChild(addToFragment());
+pushElements(ELEMENTS_AMOUNT);
+usersPictures.appendChild(addToFragment(elementsList));
