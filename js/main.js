@@ -95,3 +95,54 @@ var addToFragment = function (elements) {
 
 elementsList = pushElements(ELEMENTS_AMOUNT);
 usersPictures.appendChild(addToFragment(elementsList));
+
+/* Отрисовка большой картинки */
+
+var showBigPicture = function () {
+  var bigPicture = document.querySelector('.big-picture');
+  bigPicture.classList.remove('hidden');
+
+  return bigPicture;
+};
+
+var preventBodyScroll = function () {
+  var pageBody = document.querySelector('body');
+  pageBody.classList.add('modal-open');
+
+  return pageBody;
+};
+
+var removeTemplateComments = function (picture) {
+  var commentsList = picture.querySelector('.social__comments');
+  var comments = commentsList.querySelectorAll('.social__comment');
+  for (var i = 0; i < comments.length; i++) {
+    commentsList.removeChild(comments[i]);
+  }
+
+  return commentsList;
+};
+
+var fillPictureInfo = function (picture, elements) {
+  var fullSizePicture = picture.querySelector('.big-picture__img');
+  var fullSizeContent = picture.querySelector('.big-picture__social');
+
+  fullSizePicture.querySelector('img').src = elements[0].url;
+  fullSizeContent.querySelector('.likes-count').textContent = elements[0].likes;
+  fullSizeContent.querySelector('.comments-count').textContent = elements[0].comments.length;
+  fullSizeContent.querySelector('.social__caption').textContent = elements[0].description;
+
+  return fullSizePicture;
+};
+
+var hideCounts = function (picture) {
+  var commentsCount = picture.querySelector('.social__comment-count');
+  var commentsLoader = picture.querySelector('.comments-loader');
+  commentsCount.classList.add('hidden');
+  commentsLoader.classList.add('hidden');
+};
+
+var activePicture = showBigPicture();
+preventBodyScroll();
+removeTemplateComments(activePicture);
+fillPictureInfo(activePicture, elementsList);
+hideCounts(activePicture);
