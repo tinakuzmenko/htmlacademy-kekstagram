@@ -18,10 +18,15 @@ var ALL_COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 var ELEMENTS_AMOUNT = 25;
+var MAX_HASHTAGS_AMOUNT = 5;
+var MAX_HASHTAG_CHARACTERS = 20;
+var HASHTAG_REGEXP = /^([#]{1})([0-9a-zа-я]{1,19})$/g;
 
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 var usersPictures = document.querySelector('.pictures');
 var elementsList = [];
+
+// Поиск рандомного элемента в промежутке от min до max и поиск рандомного элемента массива
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -30,6 +35,8 @@ var getRandomInt = function (min, max) {
 var getRandomArrayElement = function (array) {
   return array[getRandomInt(0, array.length - 1)];
 };
+
+// Создание массива объектов с пользовательскими комментариями
 
 var createUsersComment = function () {
   var usersComment = {
@@ -50,6 +57,8 @@ var createCommentsArray = function () {
 
   return comments;
 };
+
+// Создание и отрисовка массива с объектами выводимых фотографий
 
 var createPictureDescription = function (photoIndex, description) {
   var pictureDescription = {
@@ -94,9 +103,12 @@ var addToFragment = function (elements) {
 elementsList = pushElements(ELEMENTS_AMOUNT);
 usersPictures.appendChild(addToFragment(elementsList));
 
+// Показ большого фото и подстановка сгенерированной информации
+
 var commentsList = document.querySelector('.social__comments');
 var commentTemplate = commentsList.querySelector('.social__comment');
 var bigPictureTemplate = document.querySelector('.big-picture');
+var pageBody = document.querySelector('body');
 
 var showBigPicture = function (bigPictureElement) {
   bigPictureElement.classList.remove('hidden');
@@ -150,7 +162,80 @@ var fillPictureInfo = function (bigPictureElement, pictureData) {
   hideCounts(bigPictureElement);
 };
 
-var activePicture = showBigPicture(bigPictureTemplate);
-var pageBody = document.querySelector('body');
-pageBody.classList.add('modal-open');
-fillPictureInfo(activePicture, elementsList[0]);
+// Закомментировано, чтобы не мешать работать с формой редактирования изображения:
+
+// var activePicture = showBigPicture(bigPictureTemplate);
+// pageBody.classList.add('modal-open');
+// fillPictureInfo(activePicture, elementsList[0]);
+
+// Открытие и закрытие окна редактирования фотографии
+
+var fileUploadChangeHandler = document.querySelector('#upload-file');
+var imageEditor = document.querySelector('.img-upload__overlay');
+var fileUploadCancelHandler = document.querySelector('#upload-cancel');
+
+var openImageEditor = function () {
+  imageEditor.classList.remove('hidden');
+  pageBody.classList.add('modal-open');
+  fileUploadCancelHandler.addEventListener('click', closeImageEditor);
+};
+
+var closeImageEditor = function () {
+  imageEditor.classList.add('hidden');
+  pageBody.classList.remove('modal-open');
+  fileUploadChangeHandler.value = '';
+  fileUploadCancelHandler.removeEventListener('click', closeImageEditor);
+};
+
+fileUploadChangeHandler.addEventListener('change', openImageEditor);
+
+// Валидация хештегов
+
+var hashTagsInput = imageEditor.querySelector('.text__hashtags');
+
+var createHashtags = function (inputString) {
+  var hashtags = inputString.split(' ');
+  return hashtags;
+};
+
+var removeAdditionalSpaces = function (allHashtags) {
+  var notEmptyHashtags = [];
+  for (var i = 0; i < allHashtags.length; i++) {
+    if (allHashtags[i] !== '') {
+      notEmptyHashtags.push(allHashtags[i]);
+    }
+  }
+  return notEmptyHashtags;
+};
+
+var checkValitadionRules = function (notEmptyHashtags, input) {
+  if (notEmptyHashtags.length > MAX_HASHTAGS_AMOUNT) {
+    input.setCustomValidity('Хеш-тегов не должно быть больше ' + MAX_HASHTAGS_AMOUNT + '!');
+  } else {
+    for (var i = 0; i < notEmptyHashtags.length; i++) {
+      var hashtag = notEmptyHashtags[i];
+      if (!hashtag.startsWith('#')) {
+        input.setCustomValidity('Хеш-тег должен начинаться с символа решетки (#)!');
+      } else if (hashtag.length === 1) {
+        input.setCustomValidity('Хеш-тег не может состоять из одного символа!');
+      } else if (hashtag.length > MAX_HASHTAG_CHARACTERS) {
+        input.setCustomValidity('Хеш-тег не может состоять из более чем ' + MAX_HASHTAG_CHARACTERS + ' символов!');
+      } else if (!hashtag.match(HASHTAG_REGEXP)) {
+        input.setCustomValidity('Хеш-тег должен начинаться с символа решетки (#) и состоять только из букв и цифр!');
+      } else {
+        input.setCustomValidity('');
+      }
+    }
+  }
+};
+
+var validateHashtags = function () {
+  var inputValue = hashTagsInput.value.toLowerCase();
+  var dirtyHashtags = createHashtags(inputValue);
+  var cleanHashtags = removeAdditionalSpaces(dirtyHashtags);
+  checkValitadionRules(cleanHashtags, hashTagsInput);
+};
+
+hashTagsInput.addEventListener('change', validateHashtags);
+
+// #cat #котик #cute #котик2020 #милота:3 cat #котик=^_^= #красивый котик #самыйлучшийкотикнаэтойпланетеземляпотомучтоонрыженькийаялюблюрыженькихкотиков
