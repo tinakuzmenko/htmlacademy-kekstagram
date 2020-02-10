@@ -20,7 +20,7 @@ var ALL_COMMENTS = [
 var ELEMENTS_AMOUNT = 25;
 var MAX_HASHTAGS_AMOUNT = 5;
 var MAX_HASHTAG_CHARACTERS = 20;
-var HASHTAG_REGEXP = /^([#]{1})([0-9a-zа-я]{1,19})$/g;
+var HASHTAG_PATTERN = /^([#]{1})([0-9a-zа-яё]{1,19})$/g;
 
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 var usersPictures = document.querySelector('.pictures');
@@ -208,34 +208,54 @@ var removeAdditionalSpaces = function (allHashtags) {
   return notEmptyHashtags;
 };
 
-var checkValitadionRules = function (notEmptyHashtags, input) {
+var createValidityMessages = function (notEmptyHashtags) {
+  var allValidityMessages = [];
+
   if (notEmptyHashtags.length > MAX_HASHTAGS_AMOUNT) {
-    input.setCustomValidity('Хеш-тегов не должно быть больше ' + MAX_HASHTAGS_AMOUNT + '!');
-  } else {
-    for (var i = 0; i < notEmptyHashtags.length; i++) {
-      var hashtag = notEmptyHashtags[i];
-      if (!hashtag.startsWith('#')) {
-        input.setCustomValidity('Хеш-тег должен начинаться с символа решетки (#)!');
-      } else if (hashtag.length === 1) {
-        input.setCustomValidity('Хеш-тег не может состоять из одного символа!');
-      } else if (hashtag.length > MAX_HASHTAG_CHARACTERS) {
-        input.setCustomValidity('Хеш-тег не может состоять из более чем ' + MAX_HASHTAG_CHARACTERS + ' символов!');
-      } else if (!hashtag.match(HASHTAG_REGEXP)) {
-        input.setCustomValidity('Хеш-тег должен начинаться с символа решетки (#) и состоять только из букв и цифр!');
-      } else {
-        input.setCustomValidity('');
-      }
+    allValidityMessages.push('Хеш-тегов не должно быть больше ' + MAX_HASHTAGS_AMOUNT + ' .');
+  }
+
+  for (var i = 0; i < notEmptyHashtags.length; i++) {
+    var hashtag = notEmptyHashtags[i];
+    if (!hashtag.startsWith('#')) {
+      allValidityMessages.push('Хеш-тег должен начинаться с символа решетки (#).');
+    } else if (hashtag.length === 1) {
+      allValidityMessages.push('Хеш-тег не может состоять из одного символа.');
+    } else if (hashtag.length > MAX_HASHTAG_CHARACTERS) {
+      allValidityMessages.push('Хеш-тег не может состоять из более чем ' + MAX_HASHTAG_CHARACTERS + ' символов.');
+    } else if (!hashtag.match(HASHTAG_PATTERN)) {
+      allValidityMessages.push('Хеш-тег должен состоять только из букв и цифр.');
+    } else if (notEmptyHashtags.indexOf(hashtag) !== notEmptyHashtags.lastIndexOf(hashtag)) {
+      allValidityMessages.push('Хеш-теги не должны повторяться.');
     }
   }
+
+  return allValidityMessages;
+};
+
+var removeDoubles = function (allElements) {
+  var uniqueElements = [];
+  for (var i = 0; i < allElements.length; i++) {
+    if (uniqueElements.indexOf(allElements[i]) === -1) {
+      uniqueElements.push(allElements[i]);
+    }
+  }
+
+  return uniqueElements;
 };
 
 var validateHashtags = function () {
   var inputValue = hashTagsInput.value.toLowerCase();
   var dirtyHashtags = createHashtags(inputValue);
   var cleanHashtags = removeAdditionalSpaces(dirtyHashtags);
-  checkValitadionRules(cleanHashtags, hashTagsInput);
+  var allErrorMessages = createValidityMessages(cleanHashtags);
+  var uniqueErrorMessages = removeDoubles(allErrorMessages);
+
+  if (uniqueErrorMessages.length !== 0) {
+    hashTagsInput.setCustomValidity(uniqueErrorMessages.join(' \n'));
+  } else {
+    hashTagsInput.setCustomValidity('');
+  }
 };
 
-hashTagsInput.addEventListener('change', validateHashtags);
-
-// #cat #котик #cute #котик2020 #милота:3 cat #котик=^_^= #красивый котик #самыйлучшийкотикнаэтойпланетеземляпотомучтоонрыженькийаялюблюрыженькихкотиков
+hashTagsInput.addEventListener('keyup', validateHashtags);
