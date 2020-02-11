@@ -22,6 +22,11 @@ var MAX_HASHTAGS_AMOUNT = 5;
 var MAX_HASHTAG_CHARACTERS = 20;
 var HASHTAG_PATTERN = /^([#]{1})([0-9a-zа-яё]{1,19})$/g;
 var ESC_KEY = 'Escape';
+var SCALE_CHANGE_STEP = 25;
+var SCALE_MIN_VALUE = 25;
+var SCALE_MAX_VALUE = 100;
+var SCALE_CONTROL_DEFAULT_VALUE = '100%';
+var SCALE_IMAGE_DEFAULT_VALUE = 100;
 
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 var usersPictures = document.querySelector('.pictures');
@@ -171,15 +176,27 @@ var fillPictureInfo = function (bigPictureElement, pictureData) {
 
 // Открытие и закрытие окна редактирования фотографии
 
+var uploadForm = document.querySelector('.img-upload__form');
 var fileUploadButton = document.querySelector('#upload-file');
-var imageEditor = document.querySelector('.img-upload__overlay');
-var fileUploadCancel = imageEditor.querySelector('#upload-cancel');
-var hashtagsInput = imageEditor.querySelector('.text__hashtags');
-var descriptionInput = imageEditor.querySelector('.text__description');
+var imageEditor = uploadForm.querySelector('.img-upload__overlay');
+var fileUploadCancel = uploadForm.querySelector('#upload-cancel');
+var hashtagsInput = uploadForm.querySelector('.text__hashtags');
+var descriptionInput = uploadForm.querySelector('.text__description');
+
+var setScaleValue = function (value) {
+  scaleControlValue.value = value;
+};
+
+var setImageScale = function (scaleValue) {
+  var newScale = scaleValue / 100;
+  imageUploadPreview.setAttribute('style', 'transform: scale(' + newScale + ');');
+};
 
 var uploadButtonChangeHandler = function () {
   imageEditor.classList.remove('hidden');
   pageBody.classList.add('modal-open');
+  setScaleValue(SCALE_CONTROL_DEFAULT_VALUE);
+  setImageScale(SCALE_IMAGE_DEFAULT_VALUE);
   fileUploadCancel.addEventListener('click', cancelButtonClickHandler);
   document.addEventListener('keydown', closeKeydownHandler);
 };
@@ -187,12 +204,13 @@ var uploadButtonChangeHandler = function () {
 var cancelButtonClickHandler = function () {
   imageEditor.classList.add('hidden');
   pageBody.classList.remove('modal-open');
-  fileUploadButton.value = '';
+  uploadForm.reset();
   fileUploadCancel.removeEventListener('click', cancelButtonClickHandler);
 };
 
 var closeKeydownHandler = function (evt) {
   if (evt.key === ESC_KEY && hashtagsInput !== document.activeElement && descriptionInput !== document.activeElement) {
+    uploadForm.reset();
     cancelButtonClickHandler();
   }
 };
@@ -201,9 +219,53 @@ fileUploadButton.addEventListener('change', uploadButtonChangeHandler);
 
 // Изменение масштаба изображения
 
+var imageUploadPreview = imageEditor.querySelector('.img-upload__preview img');
+var scaleContainer = imageEditor.querySelector('.scale');
+var buttonScaleSmaller = scaleContainer.querySelector('.scale__control--smaller');
+var buttonScaleBigger = scaleContainer.querySelector('.scale__control--bigger');
+var scaleControlValue = scaleContainer.querySelector('.scale__control--value');
+
+var getValue = function () {
+  var value = parseInt(scaleControlValue.value.replace('%', ''), 10);
+
+  return value;
+};
+
+var decreaseScaleValue = function () {
+  var scaleValue = getValue();
+  if (scaleValue > SCALE_MIN_VALUE) {
+    scaleValue = scaleValue - SCALE_CHANGE_STEP;
+  }
+
+  return scaleValue;
+};
+
+var increaseScaleValue = function () {
+  var scaleValue = getValue();
+  if (scaleValue < SCALE_MAX_VALUE) {
+    scaleValue = scaleValue + SCALE_CHANGE_STEP;
+  }
+
+  return scaleValue;
+};
+
+var scaleSmallerClickHandler = function () {
+  var newValue = decreaseScaleValue();
+  setImageScale(newValue);
+  scaleControlValue.value = newValue + '%';
+};
+
+var scaleBiggerClickHandler = function () {
+  var newValue = increaseScaleValue();
+  setImageScale(newValue);
+  scaleControlValue.value = newValue + '%';
+};
+
+buttonScaleSmaller.addEventListener('click', scaleSmallerClickHandler);
+buttonScaleBigger.addEventListener('click', scaleBiggerClickHandler);
+
 // Применение эффектов на изображение
 
-var imageUploadPreview = imageEditor.querySelector('.img-upload__preview');
 var effectsContainer = imageEditor.querySelector('.effects');
 
 var effectClickHandler = function (evt) {
