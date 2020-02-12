@@ -168,7 +168,7 @@ var fillPictureInfo = function (bigPictureElement, pictureData) {
   hideCounts(bigPictureElement);
 };
 
-// Закомментировано, чтобы не мешать работать с формой редактирования изображения:
+// Закомментировано временно, чтобы не мешать работать с формой редактирования изображения:
 
 // var activePicture = showBigPicture(bigPictureTemplate);
 // pageBody.classList.add('modal-open');
@@ -182,6 +182,7 @@ var imageEditor = uploadForm.querySelector('.img-upload__overlay');
 var fileUploadCancel = uploadForm.querySelector('#upload-cancel');
 var hashtagsInput = uploadForm.querySelector('.text__hashtags');
 var descriptionInput = uploadForm.querySelector('.text__description');
+var imageUploadPreview = imageEditor.querySelector('.img-upload__preview img');
 
 var setScaleValue = function (value) {
   scaleControlValue.value = value;
@@ -192,11 +193,17 @@ var setImageScale = function (scaleValue) {
   imageUploadPreview.setAttribute('style', 'transform: scale(' + newScale + ');');
 };
 
+var hideEffectLevel = function () {
+  effectLevel.classList.add('hidden');
+};
+
 var uploadButtonChangeHandler = function () {
   imageEditor.classList.remove('hidden');
   pageBody.classList.add('modal-open');
   setScaleValue(SCALE_CONTROL_DEFAULT_VALUE);
   setImageScale(SCALE_IMAGE_DEFAULT_VALUE);
+  hideEffectLevel();
+  removeEffect();
   fileUploadCancel.addEventListener('click', cancelButtonClickHandler);
   document.addEventListener('keydown', closeKeydownHandler);
 };
@@ -219,7 +226,6 @@ fileUploadButton.addEventListener('change', uploadButtonChangeHandler);
 
 // Изменение масштаба изображения
 
-var imageUploadPreview = imageEditor.querySelector('.img-upload__preview img');
 var scaleContainer = imageEditor.querySelector('.scale');
 var buttonScaleSmaller = scaleContainer.querySelector('.scale__control--smaller');
 var buttonScaleBigger = scaleContainer.querySelector('.scale__control--bigger');
@@ -264,19 +270,107 @@ var scaleBiggerClickHandler = function () {
 buttonScaleSmaller.addEventListener('click', scaleSmallerClickHandler);
 buttonScaleBigger.addEventListener('click', scaleBiggerClickHandler);
 
-// Применение эффектов на изображение
-
-var effectsContainer = imageEditor.querySelector('.effects');
-
-var effectClickHandler = function (evt) {
-  console.log(evt.target);
-};
-
-effectsContainer.addEventListener('click', effectClickHandler);
-
 // Изменение глубины фильтра
 
-var effectLevelPin = imageEditor.querySelector('.effect-level__pin');
+var effectLevel = imageEditor.querySelector('.effect-level');
+var effectLevelPin = effectLevel.querySelector('.effect-level__pin');
+var effectLevelLine = effectLevel.querySelector('.effect-level__line');
+var effectLevelDepth = effectLevel.querySelector('.effect-level__depth');
+var effectLevelValue = effectLevel.querySelector('.effect-level__value');
+
+effectLevelPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var levelLineWidth = effectLevelLine.offsetWidth;
+  var startCoords = evt.clientX;
+
+  var effectPinMouseMoveHandler = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = startCoords - moveEvt.clientX;
+    var pinCoordX = effectLevelPin.offsetLeft - shift;
+
+    startCoords = moveEvt.clientX;
+
+    if (!(pinCoordX < 0 || pinCoordX > levelLineWidth)) {
+      var pinPoint = pinCoordX / effectLevelLine.offsetWidth;
+
+      effectLevelPin.style.left = pinCoordX + 'px';
+      effectLevelValue.value = Math.round(pinPoint * 100);
+      effectLevelDepth.style.width = pinPoint * 100 + '%';
+    }
+  };
+
+  var effectPinMouseUpHandler = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', effectPinMouseMoveHandler);
+    document.removeEventListener('mouseup', effectPinMouseUpHandler);
+  };
+
+  document.addEventListener('mousemove', effectPinMouseMoveHandler);
+  document.addEventListener('mouseup', effectPinMouseUpHandler);
+});
+
+// Применение эффектов на изображение
+
+var pictureEffects = imageEditor.querySelectorAll('.effects__radio');
+
+var removeEffect = function () {
+  var classes = Array.from(imageUploadPreview.classList);
+  for (var i = 0; i < classes.length; i++) {
+    if (classes[i].match('effects__preview--')) {
+      imageUploadPreview.classList.remove(classes[i]);
+    }
+  }
+};
+
+var showEffectLevel = function () {
+  if (effectLevel.classList.contains('hidden')) {
+    effectLevel.classList.remove('hidden');
+  }
+};
+
+var effectClickHandler = function (evt) {
+  var evtTarget = evt.target;
+
+  switch (evtTarget.id) {
+    case 'effect-none':
+      removeEffect();
+      hideEffectLevel();
+      imageUploadPreview.classList.add('effects__preview--none');
+      break;
+    case 'effect-chrome':
+      removeEffect();
+      showEffectLevel();
+      imageUploadPreview.classList.add('effects__preview--chrome');
+      break;
+    case 'effect-sepia':
+      removeEffect();
+      showEffectLevel();
+      imageUploadPreview.classList.add('effects__preview--sepia');
+      break;
+    case 'effect-marvin':
+      removeEffect();
+      showEffectLevel();
+      imageUploadPreview.classList.add('effects__preview--marvin');
+      break;
+    case 'effect-phobos':
+      removeEffect();
+      showEffectLevel();
+      imageUploadPreview.classList.add('effects__preview--phobos');
+      break;
+    case 'effect-heat':
+      removeEffect();
+      showEffectLevel();
+      imageUploadPreview.classList.add('effects__preview--heat');
+      break;
+  }
+};
+
+for (var i = 0; i < pictureEffects.length; i++) {
+  pictureEffects[i].addEventListener('click', effectClickHandler);
+}
 
 // Валидация хештегов
 
@@ -287,9 +381,9 @@ var createHashtags = function (inputString) {
 
 var removeAdditionalSpaces = function (allHashtags) {
   var notEmptyHashtags = [];
-  for (var i = 0; i < allHashtags.length; i++) {
-    if (allHashtags[i] !== '') {
-      notEmptyHashtags.push(allHashtags[i]);
+  for (var j = 0; j < allHashtags.length; j++) {
+    if (allHashtags[j] !== '') {
+      notEmptyHashtags.push(allHashtags[j]);
     }
   }
   return notEmptyHashtags;
@@ -310,8 +404,8 @@ var createValidityMessages = function (notEmptyHashtags) {
     pushErrorMessage('Хеш-тегов не должно быть больше ' + MAX_HASHTAGS_AMOUNT + ' .', validityMessages);
   }
 
-  for (var i = 0; i < notEmptyHashtags.length; i++) {
-    var hashtag = notEmptyHashtags[i];
+  for (var j = 0; j < notEmptyHashtags.length; j++) {
+    var hashtag = notEmptyHashtags[j];
     if (!hashtag.startsWith('#')) {
       pushErrorMessage('Хеш-тег должен начинаться с символа решетки (#).', validityMessages);
     } else if (hashtag.length === 1) {
