@@ -168,11 +168,9 @@ var fillPictureInfo = function (bigPictureElement, pictureData) {
   hideCounts(bigPictureElement);
 };
 
-// Закомментировано временно, чтобы не мешать работать с формой редактирования изображения:
-
-// var activePicture = showBigPicture(bigPictureTemplate);
-// pageBody.classList.add('modal-open');
-// fillPictureInfo(activePicture, elementsList[0]);
+var activePicture = showBigPicture(bigPictureTemplate);
+pageBody.classList.add('modal-open');
+fillPictureInfo(activePicture, elementsList[0]);
 
 // Открытие и закрытие окна редактирования фотографии
 
