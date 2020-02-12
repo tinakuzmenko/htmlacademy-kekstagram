@@ -331,6 +331,12 @@ var showEffectLevel = function () {
   }
 };
 
+var applyEffect = function (style) {
+  removeEffect();
+  showEffectLevel();
+  imageUploadPreview.classList.add(style);
+};
+
 var effectClickHandler = function (evt) {
   var evtTarget = evt.target;
 
@@ -341,29 +347,19 @@ var effectClickHandler = function (evt) {
       imageUploadPreview.classList.add('effects__preview--none');
       break;
     case 'effect-chrome':
-      removeEffect();
-      showEffectLevel();
-      imageUploadPreview.classList.add('effects__preview--chrome');
+      applyEffect('effects__preview--chrome');
       break;
     case 'effect-sepia':
-      removeEffect();
-      showEffectLevel();
-      imageUploadPreview.classList.add('effects__preview--sepia');
+      applyEffect('effects__preview--sepia');
       break;
     case 'effect-marvin':
-      removeEffect();
-      showEffectLevel();
-      imageUploadPreview.classList.add('effects__preview--marvin');
+      applyEffect('effects__preview--marvin');
       break;
     case 'effect-phobos':
-      removeEffect();
-      showEffectLevel();
-      imageUploadPreview.classList.add('effects__preview--phobos');
+      applyEffect('effects__preview--phobos');
       break;
     case 'effect-heat':
-      removeEffect();
-      showEffectLevel();
-      imageUploadPreview.classList.add('effects__preview--heat');
+      applyEffect('effects__preview--heat');
       break;
   }
 };
