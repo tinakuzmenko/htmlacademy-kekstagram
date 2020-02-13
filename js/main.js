@@ -202,6 +202,7 @@ var uploadButtonChangeHandler = function () {
   setImageScale(SCALE_IMAGE_DEFAULT_VALUE);
   hideEffectLevel();
   removeEffect();
+  createEffectsHandlers();
   fileUploadCancel.addEventListener('click', cancelButtonClickHandler);
   document.addEventListener('keydown', closeKeydownHandler);
 };
@@ -210,6 +211,7 @@ var cancelButtonClickHandler = function () {
   imageEditor.classList.add('hidden');
   pageBody.classList.remove('modal-open');
   uploadForm.reset();
+  removeEffectsHandlers();
   fileUploadCancel.removeEventListener('click', cancelButtonClickHandler);
 };
 
@@ -362,9 +364,17 @@ var effectClickHandler = function (evt) {
   }
 };
 
-for (var i = 0; i < pictureEffects.length; i++) {
-  pictureEffects[i].addEventListener('click', effectClickHandler);
-}
+var createEffectsHandlers = function () {
+  for (var i = 0; i < pictureEffects.length; i++) {
+    pictureEffects[i].addEventListener('click', effectClickHandler);
+  }
+};
+
+var removeEffectsHandlers = function () {
+  for (var i = 0; i < pictureEffects.length; i++) {
+    pictureEffects[i].removeEventListener('click', effectClickHandler);
+  }
+};
 
 // Валидация хештегов
 
@@ -375,9 +385,9 @@ var createHashtags = function (inputString) {
 
 var removeAdditionalSpaces = function (allHashtags) {
   var notEmptyHashtags = [];
-  for (var j = 0; j < allHashtags.length; j++) {
-    if (allHashtags[j] !== '') {
-      notEmptyHashtags.push(allHashtags[j]);
+  for (var i = 0; i < allHashtags.length; i++) {
+    if (allHashtags[i] !== '') {
+      notEmptyHashtags.push(allHashtags[i]);
     }
   }
   return notEmptyHashtags;
@@ -398,8 +408,8 @@ var createValidityMessages = function (notEmptyHashtags) {
     pushErrorMessage('Хеш-тегов не должно быть больше ' + MAX_HASHTAGS_AMOUNT + ' .', validityMessages);
   }
 
-  for (var j = 0; j < notEmptyHashtags.length; j++) {
-    var hashtag = notEmptyHashtags[j];
+  for (var i = 0; i < notEmptyHashtags.length; i++) {
+    var hashtag = notEmptyHashtags[i];
     if (!hashtag.startsWith('#')) {
       pushErrorMessage('Хеш-тег должен начинаться с символа решетки (#).', validityMessages);
     } else if (hashtag.length === 1) {
