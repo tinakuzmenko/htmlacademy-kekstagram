@@ -172,26 +172,33 @@ var fillPictureInfo = function (bigPictureElement, pictureData) {
   hideCounts(bigPictureElement);
 };
 
-var closePictureClickHandler = function () {
+var closePicture = function () {
   bigPictureTemplate.classList.add('hidden');
   pageBody.classList.remove('modal-open');
+};
+
+var closePictureClickHandler = function () {
+  closePicture();
   closePictureButton.removeEventListener('click', closePictureClickHandler);
 };
 
 var closePictureKeydownHandler = function (evt) {
   if (evt.key === ESC_KEY) {
-    bigPictureTemplate.classList.add('hidden');
-    pageBody.classList.remove('modal-open');
+    closePicture();
     document.removeEventListener('keydown', closePictureKeydownHandler);
   }
+};
+
+var showPicture = function (elementIndex) {
+  var activePicture = showBigPicture(bigPictureTemplate);
+  pageBody.classList.add('modal-open');
+  fillPictureInfo(activePicture, elementsList[elementIndex]);
 };
 
 var showPictureClickHandler = function (evt) {
   for (var i = 0; i < picturesCollection.length; i++) {
     if (evt.target === picturesCollection[i]) {
-      var activePicture = showBigPicture(bigPictureTemplate);
-      pageBody.classList.add('modal-open');
-      fillPictureInfo(activePicture, elementsList[i]);
+      showPicture(i);
     }
   }
 
@@ -204,9 +211,7 @@ var showPictureKeydownHandler = function (evt) {
     var currentPicture = evt.target.querySelector('.picture__img');
     for (var i = 0; i < picturesCollection.length; i++) {
       if (currentPicture === picturesCollection[i]) {
-        var activePicture = showBigPicture(bigPictureTemplate);
-        pageBody.classList.add('modal-open');
-        fillPictureInfo(activePicture, elementsList[i]);
+        showPicture(i);
       }
     }
 
