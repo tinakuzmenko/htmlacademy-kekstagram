@@ -88,10 +88,11 @@ var pushElements = function (amount) {
   return elements;
 };
 
-var createPictureElement = function (picture) {
+var createPictureElement = function (picture, index) {
   var pictureElement = pictureTemplate.cloneNode(true);
 
   pictureElement.querySelector('.picture__img').src = picture.url;
+  pictureElement.querySelector('.picture__img').setAttribute('data-index', index);
   pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
   pictureElement.querySelector('.picture__likes').textContent = picture.likes;
 
@@ -101,7 +102,7 @@ var createPictureElement = function (picture) {
 var addToFragment = function (elements) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < elements.length; i++) {
-    fragment.appendChild(createPictureElement(elements[i]));
+    fragment.appendChild(createPictureElement(elements[i], i));
   }
 
   return fragment;
@@ -118,7 +119,6 @@ var bigPictureTemplate = document.querySelector('.big-picture');
 var pageBody = document.querySelector('body');
 var closePictureButton = bigPictureTemplate.querySelector('#picture-cancel');
 var picturesContainer = document.querySelector('.pictures');
-var picturesCollection = picturesContainer.querySelectorAll('.picture__img');
 
 var showBigPicture = function (bigPictureElement) {
   bigPictureElement.classList.remove('hidden');
@@ -189,34 +189,30 @@ var closePictureKeydownHandler = function (evt) {
   }
 };
 
-var showPicture = function (elementIndex) {
+var showPicture = function (target) {
   var activePicture = showBigPicture(bigPictureTemplate);
   pageBody.classList.add('modal-open');
-  fillPictureInfo(activePicture, elementsList[elementIndex]);
+  var currentIndex = parseInt(target.dataset.index, 10);
+  fillPictureInfo(activePicture, elementsList[currentIndex]);
 };
 
-var showPictureClickHandler = function (evt) {
-  for (var i = 0; i < picturesCollection.length; i++) {
-    if (evt.target === picturesCollection[i]) {
-      showPicture(i);
-    }
-  }
-
+var addCloseHandlers = function () {
   closePictureButton.addEventListener('click', closePictureClickHandler);
   document.addEventListener('keydown', closePictureKeydownHandler);
 };
 
+var showPictureClickHandler = function (evt) {
+  var evtTarget = evt.target;
+  showPicture(evtTarget);
+  addCloseHandlers();
+};
+
 var showPictureKeydownHandler = function (evt) {
   if (evt.key === ENTER_KEY) {
-    var currentPicture = evt.target.querySelector('.picture__img');
-    for (var i = 0; i < picturesCollection.length; i++) {
-      if (currentPicture === picturesCollection[i]) {
-        showPicture(i);
-      }
-    }
-
-    closePictureButton.addEventListener('click', closePictureClickHandler);
-    document.addEventListener('keydown', closePictureKeydownHandler);
+    evt.preventDefault();
+    var targetImage = evt.target.querySelector('.picture__img');
+    showPicture(targetImage);
+    addCloseHandlers();
   }
 };
 
