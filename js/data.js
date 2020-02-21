@@ -42,10 +42,10 @@
     return comments;
   };
 
-  var createPictureDescription = function (photoIndex, description) {
+  var createPictureDescription = function (photoIndex) {
     var pictureDescription = {
       url: 'photos/' + photoIndex + '.jpg',
-      description: description,
+      description: 'Описание к картинке',
       likes: getRandomInt(15, 200),
       comments: createCommentsArray()
     };
@@ -53,7 +53,17 @@
     return pictureDescription;
   };
 
+  var pushElements = function (amount) {
+    var elements = [];
+    for (var i = 0; i < amount; i++) {
+      var newElement = createPictureDescription(i + 1);
+      elements.push(newElement);
+    }
+
+    return elements;
+  };
+
   window.data = {
-    createPictureDescription: createPictureDescription
+    pushElements: pushElements
   };
 })();

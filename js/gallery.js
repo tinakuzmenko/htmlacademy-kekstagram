@@ -3,26 +3,17 @@
 (function () {
   var ELEMENTS_AMOUNT = 25;
 
+  var pushElements = window.data.pushElements;
+
   var elementsList = [];
   var usersPictures = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-  var createPictureDescription = window.data.createPictureDescription;
-
-  var pushElements = function (amount) {
-    var elements = [];
-    for (var i = 0; i < amount; i++) {
-      var newElement = createPictureDescription(i + 1, 'Здесь должно быть описание');
-      elements.push(newElement);
-    }
-
-    return elements;
-  };
 
   var createPictureElement = function (picture, index) {
     var pictureElement = pictureTemplate.cloneNode(true);
 
     pictureElement.querySelector('.picture__img').src = picture.url;
-    pictureElement.querySelector('.picture__img').setAttribute('data-index', index);
+    pictureElement.querySelector('.picture__img').dataset.index = index;
     pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
     pictureElement.querySelector('.picture__likes').textContent = picture.likes;
 

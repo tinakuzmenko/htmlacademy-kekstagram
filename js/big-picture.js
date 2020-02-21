@@ -1,14 +1,17 @@
 'use strict';
 
 (function () {
-  var pageBody = window.util.pageBody;
+  var ENTER_KEY = 'Enter';
+  var ESC_KEY = 'Escape';
+
   var elementsList = window.gallery.elementsList;
 
   var commentsList = document.querySelector('.social__comments');
-  var commentTemplate = commentsList.querySelector('.social__comment');
   var bigPictureTemplate = document.querySelector('.big-picture');
-  var closePictureButton = bigPictureTemplate.querySelector('#picture-cancel');
   var picturesContainer = document.querySelector('.pictures');
+  var commentTemplate = commentsList.querySelector('.social__comment');
+  var closePictureButton = bigPictureTemplate.querySelector('#picture-cancel');
+
 
   var showBigPicture = function (bigPictureElement) {
     bigPictureElement.classList.remove('hidden');
@@ -64,7 +67,7 @@
 
   var closePicture = function () {
     bigPictureTemplate.classList.add('hidden');
-    pageBody.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
   };
 
   var closePictureClickHandler = function () {
@@ -73,7 +76,7 @@
   };
 
   var closePictureKeydownHandler = function (evt) {
-    if (evt.key === window.util.ESC_KEY) {
+    if (evt.key === ESC_KEY) {
       closePicture();
       document.removeEventListener('keydown', closePictureKeydownHandler);
     }
@@ -81,9 +84,9 @@
 
   var showPicture = function (target) {
     var activePicture = showBigPicture(bigPictureTemplate);
-    pageBody.classList.add('modal-open');
     var currentIndex = parseInt(target.dataset.index, 10);
     fillPictureInfo(activePicture, elementsList[currentIndex]);
+    document.body.classList.add('modal-open');
   };
 
   var addCloseHandlers = function () {
@@ -100,7 +103,7 @@
   };
 
   var showPictureKeydownHandler = function (evt) {
-    if (evt.key === window.util.ENTER_KEY && evt.target.classList.contains('picture')) {
+    if (evt.key === ENTER_KEY && evt.target.classList.contains('picture')) {
       evt.preventDefault();
       var targetImage = evt.target.querySelector('.picture__img');
       showPicture(targetImage);

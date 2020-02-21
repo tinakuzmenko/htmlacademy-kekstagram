@@ -3,16 +3,10 @@
 (function () {
   var SCALE_CONTROL_DEFAULT_VALUE = '100%';
   var SCALE_IMAGE_DEFAULT_VALUE = 100;
+  var ESC_KEY = 'Escape';
 
   var uploadForm = window.util.uploadForm;
   var imageEditor = window.util.imageEditor;
-  var pageBody = window.util.pageBody;
-
-  var fileUploadButton = document.querySelector('#upload-file');
-  var hashtagsInput = uploadForm.querySelector('.text__hashtags');
-  var fileUploadCancel = uploadForm.querySelector('#upload-cancel');
-  var descriptionInput = uploadForm.querySelector('.text__description');
-
   var setScaleValue = window.scale.setScaleValue;
   var setImageScale = window.scale.setImageScale;
   var removeEffect = window.filter.removeEffect;
@@ -20,9 +14,14 @@
   var createEffectsHandlers = window.filter.createEffectsHandlers;
   var removeEffectsHandlers = window.filter.removeEffectsHandlers;
 
+  var fileUploadButton = document.querySelector('#upload-file');
+  var hashtagsInput = uploadForm.querySelector('.text__hashtags');
+  var fileUploadCancel = uploadForm.querySelector('#upload-cancel');
+  var descriptionInput = uploadForm.querySelector('.text__description');
+
   var uploadButtonChangeHandler = function () {
     imageEditor.classList.remove('hidden');
-    pageBody.classList.add('modal-open');
+    document.body.classList.add('modal-open');
     setScaleValue(SCALE_CONTROL_DEFAULT_VALUE);
     setImageScale(SCALE_IMAGE_DEFAULT_VALUE);
     hideEffectLevel();
@@ -34,14 +33,14 @@
 
   var cancelButtonClickHandler = function () {
     imageEditor.classList.add('hidden');
-    pageBody.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
     uploadForm.reset();
     removeEffectsHandlers();
     fileUploadCancel.removeEventListener('click', cancelButtonClickHandler);
   };
 
   var closeKeydownHandler = function (evt) {
-    if (evt.key === window.util.ESC_KEY && hashtagsInput !== document.activeElement && descriptionInput !== document.activeElement) {
+    if (evt.key === ESC_KEY && hashtagsInput !== document.activeElement && descriptionInput !== document.activeElement) {
       uploadForm.reset();
       cancelButtonClickHandler();
     }

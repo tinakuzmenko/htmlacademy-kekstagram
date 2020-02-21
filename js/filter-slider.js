@@ -2,6 +2,7 @@
 
 (function () {
   var imageEditor = window.util.imageEditor;
+
   var effectLevel = imageEditor.querySelector('.effect-level');
   var effectLevelPin = effectLevel.querySelector('.effect-level__pin');
   var effectLevelLine = effectLevel.querySelector('.effect-level__line');
