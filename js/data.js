@@ -47,7 +47,8 @@
       url: 'photos/' + photoIndex + '.jpg',
       description: 'Описание к картинке',
       likes: getRandomInt(15, 200),
-      comments: createCommentsArray()
+      comments: createCommentsArray(),
+      id: photoIndex - 1
     };
 
     return pictureDescription;
