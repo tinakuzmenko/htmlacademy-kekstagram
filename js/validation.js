@@ -48,7 +48,7 @@
         pushErrorMessage('Хеш-тег не может состоять из более чем ' + MAX_HASHTAG_CHARACTERS + ' символов.', validityMessages);
       } else if (!hashtag.match(HASHTAG_PATTERN)) {
         pushErrorMessage('Хеш-тег должен состоять только из букв и цифр.', validityMessages);
-      } else if (notEmptyHashtags.indexOf(hashtag, i) !== notEmptyHashtags.lastIndexOf(hashtag)) {
+      } else if (i !== notEmptyHashtags.indexOf(hashtag, -1)) {
         pushErrorMessage('Хеш-теги не должны повторяться.', validityMessages);
       }
     }
