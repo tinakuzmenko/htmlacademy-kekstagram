@@ -2,8 +2,10 @@
 
 (function () {
   var imageEditor = window.util.imageEditor;
+  var imageUploadPreview = window.util.imageUploadPreview;
   var effectLevel = window.filterSlider.effectLevel;
-  var imageUploadPreview = imageEditor.querySelector('.img-upload__preview img');
+  var setDefaultDepthValue = window.filterSlider.setDefaultDepthValue;
+
   var pictureEffects = imageEditor.querySelectorAll('.effects__radio');
 
   var removeEffect = function () {
@@ -28,6 +30,7 @@
   var applyEffect = function (styleClass) {
     removeEffect();
     showEffectLevel();
+    setDefaultDepthValue();
     imageUploadPreview.classList.add(styleClass);
   };
 
@@ -38,6 +41,7 @@
       case 'effect-none':
         removeEffect();
         hideEffectLevel();
+        setDefaultDepthValue();
         imageUploadPreview.classList.add('effects__preview--none');
         break;
       case 'effect-chrome':
@@ -55,6 +59,9 @@
       case 'effect-heat':
         applyEffect('effects__preview--heat');
         break;
+      default:
+        removeEffect();
+        hideEffectLevel();
     }
   };
 
