@@ -44,10 +44,11 @@
 
   var createPictureDescription = function (photoIndex) {
     var pictureDescription = {
-      url: 'photos/' + photoIndex + '.jpg',
+      url: 'photos/' + (photoIndex + 1) + '.jpg',
       description: 'Описание к картинке',
       likes: getRandomInt(15, 200),
-      comments: createCommentsArray()
+      comments: createCommentsArray(),
+      id: photoIndex
     };
 
     return pictureDescription;
@@ -56,7 +57,7 @@
   var pushElements = function (amount) {
     var elements = [];
     for (var i = 0; i < amount; i++) {
-      var newElement = createPictureDescription(i + 1);
+      var newElement = createPictureDescription(i);
       elements.push(newElement);
     }
 

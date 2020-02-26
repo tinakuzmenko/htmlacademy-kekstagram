@@ -13,6 +13,7 @@
   var hideEffectLevel = window.filter.hideEffectLevel;
   var createEffectsHandlers = window.filter.createEffectsHandlers;
   var removeEffectsHandlers = window.filter.removeEffectsHandlers;
+  var setDefaultDepthValue = window.filterSlider.setDefaultDepthValue;
 
   var fileUploadButton = document.querySelector('#upload-file');
   var hashtagsInput = uploadForm.querySelector('.text__hashtags');
@@ -26,6 +27,7 @@
     setImageScale(SCALE_IMAGE_DEFAULT_VALUE);
     hideEffectLevel();
     removeEffect();
+    setDefaultDepthValue();
     createEffectsHandlers();
     fileUploadCancel.addEventListener('click', cancelButtonClickHandler);
     document.addEventListener('keydown', closeKeydownHandler);

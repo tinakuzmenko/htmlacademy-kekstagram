@@ -6,8 +6,8 @@
   var SCALE_MAX_VALUE = 100;
 
   var imageEditor = window.util.imageEditor;
+  var imageUploadPreview = window.util.imageUploadPreview;
 
-  var imageUploadPreview = imageEditor.querySelector('.img-upload__preview img');
   var scaleContainer = imageEditor.querySelector('.scale');
   var buttonScaleSmaller = scaleContainer.querySelector('.scale__control--smaller');
   var buttonScaleBigger = scaleContainer.querySelector('.scale__control--bigger');
@@ -19,7 +19,7 @@
 
   var setImageScale = function (scaleValue) {
     var newScale = scaleValue / 100;
-    imageUploadPreview.setAttribute('style', 'transform: scale(' + newScale + ');');
+    imageUploadPreview.style.transform = 'scale(' + newScale + ')';
   };
 
   var getValue = function () {

@@ -9,11 +9,11 @@
   var usersPictures = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-  var createPictureElement = function (picture, index) {
+  var createPictureElement = function (picture) {
     var pictureElement = pictureTemplate.cloneNode(true);
 
     pictureElement.querySelector('.picture__img').src = picture.url;
-    pictureElement.querySelector('.picture__img').dataset.index = index;
+    pictureElement.querySelector('.picture__img').dataset.index = picture.id;
     pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
     pictureElement.querySelector('.picture__likes').textContent = picture.likes;
 
@@ -23,7 +23,7 @@
   var addToFragment = function (elements) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < elements.length; i++) {
-      fragment.appendChild(createPictureElement(elements[i], i));
+      fragment.appendChild(createPictureElement(elements[i]));
     }
 
     return fragment;
