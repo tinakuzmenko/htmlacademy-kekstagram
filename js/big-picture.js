@@ -1,29 +1,8 @@
 'use strict';
 
 (function () {
-  var ENTER_KEY = 'Enter';
-  var ESC_KEY = 'Escape';
-
-  var elementsList = window.gallery.elementsList;
-
   var commentsList = document.querySelector('.social__comments');
-  var bigPictureTemplate = document.querySelector('.big-picture');
-  var picturesContainer = document.querySelector('.pictures');
   var commentTemplate = commentsList.querySelector('.social__comment');
-  var closePictureButton = bigPictureTemplate.querySelector('#picture-cancel');
-
-
-  var showBigPicture = function (bigPictureElement) {
-    bigPictureElement.classList.remove('hidden');
-    return bigPictureElement;
-  };
-
-  var hideCounts = function (bigPictureElement) {
-    var commentsCount = bigPictureElement.querySelector('.social__comment-count');
-    var commentsLoader = bigPictureElement.querySelector('.comments-loader');
-    commentsCount.classList.add('hidden');
-    commentsLoader.classList.add('hidden');
-  };
 
   var renderUserComment = function (commentData) {
     var userComment = commentTemplate.cloneNode(true);
@@ -51,9 +30,9 @@
     commentsContainer.appendChild(fragment);
   };
 
-  var fillPictureInfo = function (bigPictureElement, pictureData) {
-    var pictureBlock = bigPictureElement.querySelector('.big-picture__img');
-    var contentBlock = bigPictureElement.querySelector('.big-picture__social');
+  var fillPictureInfo = function (bigPicture, pictureData) {
+    var pictureBlock = bigPicture.querySelector('.big-picture__img');
+    var contentBlock = bigPicture.querySelector('.big-picture__social');
     var commentsFragment = createCommentsFragment(pictureData.comments);
 
     pictureBlock.querySelector('img').src = pictureData.url;
@@ -62,55 +41,9 @@
     contentBlock.querySelector('.social__caption').textContent = pictureData.description;
 
     addComments(commentsList, commentsFragment);
-    hideCounts(bigPictureElement);
   };
 
-  var closePicture = function () {
-    bigPictureTemplate.classList.add('hidden');
-    document.body.classList.remove('modal-open');
+  window.bigPicture = {
+    fillPictureInfo: fillPictureInfo
   };
-
-  var closePictureClickHandler = function () {
-    closePicture();
-    closePictureButton.removeEventListener('click', closePictureClickHandler);
-  };
-
-  var closePictureKeydownHandler = function (evt) {
-    if (evt.key === ESC_KEY) {
-      closePicture();
-      document.removeEventListener('keydown', closePictureKeydownHandler);
-    }
-  };
-
-  var showPicture = function (target) {
-    var activePicture = showBigPicture(bigPictureTemplate);
-    var currentIndex = parseInt(target.dataset.index, 10);
-    fillPictureInfo(activePicture, elementsList[currentIndex]);
-    document.body.classList.add('modal-open');
-  };
-
-  var addCloseHandlers = function () {
-    closePictureButton.addEventListener('click', closePictureClickHandler);
-    document.addEventListener('keydown', closePictureKeydownHandler);
-  };
-
-  var showPictureClickHandler = function (evt) {
-    var evtTarget = evt.target;
-    if (evtTarget.classList.contains('picture__img')) {
-      showPicture(evtTarget);
-      addCloseHandlers();
-    }
-  };
-
-  var showPictureKeydownHandler = function (evt) {
-    if (evt.key === ENTER_KEY && evt.target.classList.contains('picture')) {
-      evt.preventDefault();
-      var targetImage = evt.target.querySelector('.picture__img');
-      showPicture(targetImage);
-      addCloseHandlers();
-    }
-  };
-
-  picturesContainer.addEventListener('click', showPictureClickHandler);
-  picturesContainer.addEventListener('keydown', showPictureKeydownHandler);
 })();
