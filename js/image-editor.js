@@ -33,18 +33,24 @@
     document.addEventListener('keydown', closeKeydownHandler);
   };
 
-  var cancelButtonClickHandler = function () {
+  var closeImageEditor = function () {
+    removeEffectsHandlers();
+    uploadForm.reset();
+
     imageEditor.classList.add('hidden');
     document.body.classList.remove('modal-open');
-    uploadForm.reset();
-    removeEffectsHandlers();
+
     fileUploadCancel.removeEventListener('click', cancelButtonClickHandler);
+    document.removeEventListener('keydown', closeKeydownHandler);
+  };
+
+  var cancelButtonClickHandler = function () {
+    closeImageEditor();
   };
 
   var closeKeydownHandler = function (evt) {
     if (evt.key === ESC_KEY && hashtagsInput !== document.activeElement && descriptionInput !== document.activeElement) {
-      uploadForm.reset();
-      cancelButtonClickHandler();
+      closeImageEditor();
     }
   };
 

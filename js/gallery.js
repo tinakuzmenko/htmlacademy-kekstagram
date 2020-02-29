@@ -1,11 +1,6 @@
 'use strict';
 
 (function () {
-  var ELEMENTS_AMOUNT = 25;
-
-  var pushElements = window.data.pushElements;
-
-  var elementsList = [];
   var usersPictures = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -20,19 +15,17 @@
     return pictureElement;
   };
 
-  var addToFragment = function (elements) {
+  var addToFragment = function (pictures) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < elements.length; i++) {
-      fragment.appendChild(createPictureElement(elements[i]));
+
+    for (var i = 0; i < pictures.length; i++) {
+      fragment.appendChild(createPictureElement(pictures[i]));
     }
 
-    return fragment;
+    usersPictures.appendChild(fragment);
   };
 
-  elementsList = pushElements(ELEMENTS_AMOUNT);
-  usersPictures.appendChild(addToFragment(elementsList));
-
   window.gallery = {
-    elementsList: elementsList
+    addToFragment: addToFragment
   };
 })();
