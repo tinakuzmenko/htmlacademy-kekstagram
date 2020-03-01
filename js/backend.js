@@ -3,6 +3,7 @@
 (function () {
   var TIMEOUT_IN_MS = 10000;
   var LOAD_URL = 'https://js.dump.academy/kekstagram/data';
+  var SEND_URL = 'https://js.dump.academy/kekstagram';
 
   var processServerStatus = function (xhr, onLoad, onError) {
     xhr.responseType = 'json';
@@ -42,7 +43,7 @@
       onError('Произошла ошибка соединения');
     });
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onError('Запрос не выполнился за ' + xhr.timeout + 'мс');
     });
 
     xhr.timeout = TIMEOUT_IN_MS;
@@ -55,7 +56,15 @@
     xhrLoad.send();
   };
 
+  var send = function (data, onLoad, onError) {
+    var xhrSend = new XMLHttpRequest();
+    xhrSend.open('POST', SEND_URL);
+    processServerStatus(xhrSend, onLoad, onError);
+    xhrSend.send(data);
+  };
+
   window.backend = {
     load: load,
+    send: send,
   };
 })();
