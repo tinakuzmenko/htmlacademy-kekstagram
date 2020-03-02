@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var loadErrorHandler = window.error.loadErrorHandler;
+  var errorHandler = window.error.errorHandler;
   var addToFragment = window.gallery.addToFragment;
 
   var elementsList = [];
@@ -37,5 +37,5 @@
     };
   };
 
-  window.backend.load(loadSuccessHandler, loadErrorHandler);
+  window.backend.load(loadSuccessHandler, errorHandler, 'Закрыть');
 })();

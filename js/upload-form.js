@@ -3,7 +3,6 @@
 (function () {
   var SCALE_CONTROL_DEFAULT_VALUE = '100%';
   var SCALE_IMAGE_DEFAULT_VALUE = 100;
-  var ESC_KEY = 'Escape';
 
   var uploadForm = window.util.uploadForm;
   var imageEditor = window.util.imageEditor;
@@ -14,7 +13,7 @@
   var createEffectsHandlers = window.filter.createEffectsHandlers;
   var removeEffectsHandlers = window.filter.removeEffectsHandlers;
   var setDefaultDepthValue = window.filterSlider.setDefaultDepthValue;
-  var errorHandler = window.error.sendErrorHandler;
+  var errorHandler = window.error.errorHandler;
   var successHandler = window.success.successHandler;
 
   var fileUploadButton = document.querySelector('#upload-file');
@@ -51,7 +50,7 @@
   };
 
   var closeKeydownHandler = function (evt) {
-    if (evt.key === ESC_KEY && hashtagsInput !== document.activeElement && descriptionInput !== document.activeElement) {
+    if (evt.key === window.util.ESC_KEY && hashtagsInput !== document.activeElement && descriptionInput !== document.activeElement) {
       closeImageEditor();
     }
   };

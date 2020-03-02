@@ -2,7 +2,6 @@
 
 (function () {
   var ENTER_KEY = 'Enter';
-  var ESC_KEY = 'Escape';
 
   var fillPictureInfo = window.bigPicture.fillPictureInfo;
 
@@ -43,7 +42,7 @@
   };
 
   var closePictureKeydownHandler = function (evt) {
-    if (evt.key === ESC_KEY) {
+    if (evt.key === window.util.ESC_KEY) {
       closePicture();
     }
   };
