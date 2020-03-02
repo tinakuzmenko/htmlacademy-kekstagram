@@ -5,31 +5,41 @@
   var LOAD_URL = 'https://js.dump.academy/kekstagram/data';
   var SEND_URL = 'https://js.dump.academy/kekstagram';
 
+  var Code = {
+    SUCCESS: 200,
+    REQUEST_ERROR: 400,
+    ACCESS_ERROR: 403,
+    NOT_FOUND_ERROR: 404,
+    SERVER_ERROR: 500,
+    RESPONSE_ERROR: 502,
+    SERVICE_UNAVIALABLE: 503
+  };
+
   var processServerStatus = function (xhr, onLoad, onError, errorButtonText) {
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
       if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
+        if (xhr.status === Code.SUCCESS) {
           onLoad(xhr.response);
         } else {
           switch (xhr.status) {
-            case 400:
+            case Code.REQUEST_ERROR:
               onError('Ошибка 400: Неверный запрос', errorButtonText);
               break;
-            case 403:
+            case Code.ACCESS_ERROR:
               onError('Ошибка 403: Доступ запрещен', errorButtonText);
               break;
-            case 404:
+            case Code.NOT_FOUND_ERROR:
               onError('Ошибка 404: Ничего не найдено', errorButtonText);
               break;
-            case 500:
+            case Code.SERVER_ERROR:
               onError('Ошибка 500: Ошибка сервера', errorButtonText);
               break;
-            case 502:
+            case Code.RESPONSE_ERROR:
               onError('Ошибка 502: Неверный ответ сервера', errorButtonText);
               break;
-            case 503:
+            case Code.SERVICE_UNAVIALABLE:
               onError('Ошибка 503: Сервер временно недоступен', errorButtonText);
               break;
             default:

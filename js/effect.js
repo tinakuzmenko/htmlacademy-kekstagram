@@ -3,10 +3,19 @@
 (function () {
   var imageEditor = window.util.imageEditor;
   var imageUploadPreview = window.util.imageUploadPreview;
-  var effectLevel = window.filterSlider.effectLevel;
-  var setDefaultDepthValue = window.filterSlider.setDefaultDepthValue;
+  var effectLevel = window.effectSlider.level;
+  var setDefaultDepthValue = window.effectSlider.setDefaultDepthValue;
 
   var pictureEffects = imageEditor.querySelectorAll('.effects__radio');
+
+  var effectMap = {
+    'effect-none': 'effects__preview--none',
+    'effect-chrome': 'effects__preview--chrome',
+    'effect-sepia': 'effects__preview--sepia',
+    'effect-marvin': 'effects__preview--marvin',
+    'effect-phobos': 'effects__preview--phobos',
+    'effect-heat': 'effects__preview--heat'
+  };
 
   var removeEffect = function () {
     var classes = Array.from(imageUploadPreview.classList);
@@ -29,40 +38,19 @@
 
   var applyEffect = function (styleClass) {
     removeEffect();
-    showEffectLevel();
+
+    if (styleClass.match('effects__preview--none')) {
+      hideEffectLevel();
+    } else {
+      showEffectLevel();
+    }
+
     setDefaultDepthValue();
     imageUploadPreview.classList.add(styleClass);
   };
 
   var effectClickHandler = function (evt) {
-    var evtTarget = evt.target;
-
-    switch (evtTarget.id) {
-      case 'effect-none':
-        removeEffect();
-        hideEffectLevel();
-        setDefaultDepthValue();
-        imageUploadPreview.classList.add('effects__preview--none');
-        break;
-      case 'effect-chrome':
-        applyEffect('effects__preview--chrome');
-        break;
-      case 'effect-sepia':
-        applyEffect('effects__preview--sepia');
-        break;
-      case 'effect-marvin':
-        applyEffect('effects__preview--marvin');
-        break;
-      case 'effect-phobos':
-        applyEffect('effects__preview--phobos');
-        break;
-      case 'effect-heat':
-        applyEffect('effects__preview--heat');
-        break;
-      default:
-        removeEffect();
-        hideEffectLevel();
-    }
+    applyEffect(effectMap[evt.target.id]);
   };
 
   var createEffectsHandlers = function () {
@@ -77,10 +65,10 @@
     }
   };
 
-  window.filter = {
-    removeEffect: removeEffect,
-    hideEffectLevel: hideEffectLevel,
-    createEffectsHandlers: createEffectsHandlers,
-    removeEffectsHandlers: removeEffectsHandlers
+  window.effect = {
+    remove: removeEffect,
+    hideLevel: hideEffectLevel,
+    createHandlers: createEffectsHandlers,
+    removeHandlers: removeEffectsHandlers
   };
 })();

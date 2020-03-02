@@ -1,7 +1,10 @@
 'use strict';
 
 (function () {
-  var ESC_KEY = 'Escape';
+  var Keycode = {
+    ESC_KEY: 'Escape',
+    ENTER_KEY: 'Enter'
+  };
 
   var uploadForm = document.querySelector('.img-upload__form');
   var imageEditor = uploadForm.querySelector('.img-upload__overlay');
@@ -20,7 +23,7 @@
   };
 
   window.util = {
-    ESC_KEY: ESC_KEY,
+    Keycode: Keycode,
     uploadForm: uploadForm,
     imageEditor: imageEditor,
     imageUploadPreview: imageUploadPreview,

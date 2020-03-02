@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var errorHandler = window.error.errorHandler;
+  var errorHandler = window.error.handler;
   var addToFragment = window.gallery.addToFragment;
 
   var elementsList = [];

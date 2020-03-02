@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var Keycode = window.util.Keycode;
+
   var main = document.querySelector('main');
 
   var closeErrorMessage = function () {
@@ -25,7 +27,7 @@
   };
 
   var keydownErrorMessageHandler = function (evt) {
-    if (evt.key === window.util.ESC_KEY) {
+    if (evt.key === Keycode.ESC_KEY) {
       closeErrorMessage();
     }
   };
@@ -54,6 +56,6 @@
   };
 
   window.error = {
-    errorHandler: errorHandler
+    handler: errorHandler
   };
 })();
