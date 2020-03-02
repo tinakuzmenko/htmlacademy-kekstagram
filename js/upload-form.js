@@ -9,7 +9,7 @@
   var imageEditor = window.util.imageEditor;
   var setScaleValue = window.scale.setValue;
   var setNewScale = window.scale.setNew;
-  var removeEffect = window.effect.remove;
+  var removePreviousEffect = window.effect.remove;
   var hideEffectLevel = window.effect.hideLevel;
   var createEffectsHandlers = window.effect.createHandlers;
   var removeEffectsHandlers = window.effect.removeHandlers;
@@ -28,7 +28,7 @@
     setScaleValue(SCALE_CONTROL_DEFAULT_VALUE);
     setNewScale(SCALE_IMAGE_DEFAULT_VALUE);
     hideEffectLevel();
-    removeEffect();
+    removePreviousEffect();
     setDefaultDepthValue();
     createEffectsHandlers();
     fileUploadCancel.addEventListener('click', cancelButtonClickHandler);

@@ -17,7 +17,7 @@
     'effect-heat': 'effects__preview--heat'
   };
 
-  var removeEffect = function () {
+  var removePreviousEffect = function () {
     var classes = Array.from(imageUploadPreview.classList);
     for (var i = 0; i < classes.length; i++) {
       if (classes[i].match('effects__preview--')) {
@@ -36,9 +36,7 @@
     effectLevel.classList.add('hidden');
   };
 
-  var applyEffect = function (styleClass) {
-    removeEffect();
-
+  var applyNewEffect = function (styleClass) {
     if (styleClass.match('effects__preview--none')) {
       hideEffectLevel();
     } else {
@@ -50,7 +48,8 @@
   };
 
   var effectClickHandler = function (evt) {
-    applyEffect(effectMap[evt.target.id]);
+    removePreviousEffect();
+    applyNewEffect(effectMap[evt.target.id]);
   };
 
   var createEffectsHandlers = function () {
@@ -66,7 +65,7 @@
   };
 
   window.effect = {
-    remove: removeEffect,
+    remove: removePreviousEffect,
     hideLevel: hideEffectLevel,
     createHandlers: createEffectsHandlers,
     removeHandlers: removeEffectsHandlers
