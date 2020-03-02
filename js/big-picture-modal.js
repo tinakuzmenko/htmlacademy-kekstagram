@@ -33,17 +33,18 @@
   var closePicture = function () {
     bigPictureTemplate.classList.add('hidden');
     document.body.classList.remove('modal-open');
+
+    closePictureButton.removeEventListener('click', closePictureClickHandler);
+    document.removeEventListener('keydown', closePictureKeydownHandler);
   };
 
   var closePictureClickHandler = function () {
     closePicture();
-    closePictureButton.removeEventListener('click', closePictureClickHandler);
   };
 
   var closePictureKeydownHandler = function (evt) {
     if (evt.key === ESC_KEY) {
       closePicture();
-      document.removeEventListener('keydown', closePictureKeydownHandler);
     }
   };
 
