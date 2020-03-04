@@ -1,9 +1,11 @@
 'use strict';
 
 (function () {
-  var errorHandler = window.error.handler;
-  var addToFragment = window.gallery.addToFragment;
 
+  var errorHandler = window.error.handler;
+  var addUsersPictures = window.gallery.addUsersPictures;
+
+  var imgFilters = document.querySelector('.img-filters');
   var elementsList = [];
 
   var createPictureObject = function (element, index) {
@@ -30,10 +32,11 @@
 
   var loadSuccessHandler = function (data) {
     elementsList = pushElements(data);
-    addToFragment(elementsList);
+    addUsersPictures(elementsList);
+    imgFilters.classList.remove('img-filters--inactive');
 
     window.data = {
-      elementsList: elementsList
+      elementsList: elementsList,
     };
   };
 
