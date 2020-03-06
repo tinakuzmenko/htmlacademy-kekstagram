@@ -1,8 +1,9 @@
 'use strict';
 
 (function () {
+  var Keycode = window.util.Keycode;
+
   var main = document.querySelector('main');
-  var ESC_KEY = 'Escape';
 
   var closeSuccessWindow = function () {
     var successWindow = document.querySelector('.success');
@@ -16,7 +17,7 @@
   };
 
   var keydownSuccessMessageHandler = function (evt) {
-    if (evt.key === ESC_KEY) {
+    if (evt.key === Keycode.ESC_KEY) {
       closeSuccessWindow();
     }
   };
@@ -50,6 +51,6 @@
   };
 
   window.success = {
-    successHandler: successHandler
+    handler: successHandler
   };
 })();

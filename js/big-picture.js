@@ -44,6 +44,6 @@
   };
 
   window.bigPicture = {
-    fillPictureInfo: fillPictureInfo
+    fillInfo: fillPictureInfo
   };
 })();

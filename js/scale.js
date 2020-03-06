@@ -17,7 +17,7 @@
     scaleControlValue.value = value;
   };
 
-  var setImageScale = function (scaleValue) {
+  var setNewScale = function (scaleValue) {
     var newScale = scaleValue / 100;
     imageUploadPreview.style.transform = 'scale(' + newScale + ')';
   };
@@ -48,13 +48,13 @@
 
   var scaleSmallerClickHandler = function () {
     var newValue = decreaseScaleValue();
-    setImageScale(newValue);
+    setNewScale(newValue);
     scaleControlValue.value = newValue + '%';
   };
 
   var scaleBiggerClickHandler = function () {
     var newValue = increaseScaleValue();
-    setImageScale(newValue);
+    setNewScale(newValue);
     scaleControlValue.value = newValue + '%';
   };
 
@@ -62,7 +62,7 @@
   buttonScaleBigger.addEventListener('click', scaleBiggerClickHandler);
 
   window.scale = {
-    setScaleValue: setScaleValue,
-    setImageScale: setImageScale
+    setValue: setScaleValue,
+    setNew: setNewScale
   };
 })();

@@ -1,86 +1,67 @@
 'use strict';
 
 (function () {
-  var imageEditor = window.util.imageEditor;
-  var imageUploadPreview = window.util.imageUploadPreview;
-  var effectLevel = window.filterSlider.effectLevel;
-  var setDefaultDepthValue = window.filterSlider.setDefaultDepthValue;
+  var MAX_RANDOM_ELEMENTS_AMOUNT = 10;
 
-  var pictureEffects = imageEditor.querySelectorAll('.effects__radio');
+  var getRandomArrayElement = window.util.getRandomArrayElement;
+  var removeUsersPictures = window.gallery.removeUsersPictures;
+  var addUsersPictures = window.gallery.addUsersPictures;
 
-  var removeEffect = function () {
-    var classes = Array.from(imageUploadPreview.classList);
-    for (var i = 0; i < classes.length; i++) {
-      if (classes[i].match('effects__preview--')) {
-        imageUploadPreview.classList.remove(classes[i]);
+  var imgFilters = document.querySelector('.img-filters');
+  var defaultButton = imgFilters.querySelector('#filter-default');
+  var randomButton = imgFilters.querySelector('#filter-random');
+  var discussedButton = imgFilters.querySelector('#filter-discussed');
+
+  var toggleActiveFilter = function (button) {
+    var activeElement = imgFilters.querySelector('.img-filters__button--active');
+    activeElement.classList.remove('img-filters__button--active');
+    button.classList.add('img-filters__button--active');
+  };
+
+  var showDefaultPictures = function () {
+    addUsersPictures(window.data.elementsList);
+  };
+
+  var showRandomPictures = function () {
+    var randomElements = [];
+
+    while (randomElements.length < MAX_RANDOM_ELEMENTS_AMOUNT) {
+      var newItem = getRandomArrayElement(window.data.elementsList);
+      if (randomElements.indexOf(newItem) === -1) {
+        randomElements.push(newItem);
       }
     }
+
+    addUsersPictures(randomElements);
   };
 
-  var showEffectLevel = function () {
-    if (effectLevel.classList.contains('hidden')) {
-      effectLevel.classList.remove('hidden');
-    }
+  var showDiscussedPictures = function () {
+    var elementsListCopy = window.data.elementsList.slice();
+    var sortedList = elementsListCopy.sort(function (second, first) {
+      return first.comments.length - second.comments.length;
+    });
+
+    addUsersPictures(sortedList);
   };
 
-  var hideEffectLevel = function () {
-    effectLevel.classList.add('hidden');
-  };
+  var imgFiltersClickHandler = window.debounce(function (evt) {
+    toggleActiveFilter(evt.target);
+    removeUsersPictures();
 
-  var applyEffect = function (styleClass) {
-    removeEffect();
-    showEffectLevel();
-    setDefaultDepthValue();
-    imageUploadPreview.classList.add(styleClass);
-  };
-
-  var effectClickHandler = function (evt) {
-    var evtTarget = evt.target;
-
-    switch (evtTarget.id) {
-      case 'effect-none':
-        removeEffect();
-        hideEffectLevel();
-        setDefaultDepthValue();
-        imageUploadPreview.classList.add('effects__preview--none');
+    switch (evt.target) {
+      case defaultButton:
+        showDefaultPictures();
         break;
-      case 'effect-chrome':
-        applyEffect('effects__preview--chrome');
+      case randomButton:
+        showRandomPictures();
         break;
-      case 'effect-sepia':
-        applyEffect('effects__preview--sepia');
-        break;
-      case 'effect-marvin':
-        applyEffect('effects__preview--marvin');
-        break;
-      case 'effect-phobos':
-        applyEffect('effects__preview--phobos');
-        break;
-      case 'effect-heat':
-        applyEffect('effects__preview--heat');
+      case discussedButton:
+        showDiscussedPictures();
         break;
       default:
-        removeEffect();
-        hideEffectLevel();
+        showDefaultPictures();
     }
-  };
+  });
 
-  var createEffectsHandlers = function () {
-    for (var i = 0; i < pictureEffects.length; i++) {
-      pictureEffects[i].addEventListener('click', effectClickHandler);
-    }
-  };
-
-  var removeEffectsHandlers = function () {
-    for (var i = 0; i < pictureEffects.length; i++) {
-      pictureEffects[i].removeEventListener('click', effectClickHandler);
-    }
-  };
-
-  window.filter = {
-    removeEffect: removeEffect,
-    hideEffectLevel: hideEffectLevel,
-    createEffectsHandlers: createEffectsHandlers,
-    removeEffectsHandlers: removeEffectsHandlers
-  };
+  imgFilters.addEventListener('click', imgFiltersClickHandler);
 })();

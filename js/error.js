@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var ESC_KEY = 'Escape';
+  var Keycode = window.util.Keycode;
 
   var main = document.querySelector('main');
 
@@ -27,12 +27,12 @@
   };
 
   var keydownErrorMessageHandler = function (evt) {
-    if (evt.key === ESC_KEY) {
+    if (evt.key === Keycode.ESC_KEY) {
       closeErrorMessage();
     }
   };
 
-  var createErrorMessage = function (errorMessage, errorType) {
+  var createErrorMessage = function (errorMessage, errorButtonText) {
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var newError = errorTemplate.cloneNode(true);
 
@@ -41,10 +41,7 @@
     var fragment = document.createDocumentFragment();
 
     errorTitle.textContent = errorMessage;
-
-    if (errorType) {
-      errorButton.textContent = 'Закрыть';
-    }
+    errorButton.textContent = errorButtonText;
 
     fragment.appendChild(newError);
     main.appendChild(fragment);
@@ -54,18 +51,11 @@
     document.addEventListener('click', clickErrorWindowHandler);
   };
 
-  var loadErrorHandler = function (errorMessage) {
-    var isLoadMessage = true;
-    createErrorMessage(errorMessage, isLoadMessage);
-  };
-
-  var sendErrorHandler = function (errorMessage) {
-    var isLoadMessage = false;
-    createErrorMessage(errorMessage, isLoadMessage);
+  var errorHandler = function (errorMessage, errorButtonText) {
+    createErrorMessage(errorMessage, errorButtonText);
   };
 
   window.error = {
-    loadErrorHandler: loadErrorHandler,
-    sendErrorHandler: sendErrorHandler
+    handler: errorHandler
   };
 })();

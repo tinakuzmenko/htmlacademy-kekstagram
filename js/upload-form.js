@@ -3,19 +3,19 @@
 (function () {
   var SCALE_CONTROL_DEFAULT_VALUE = '100%';
   var SCALE_IMAGE_DEFAULT_VALUE = 100;
-  var ESC_KEY = 'Escape';
 
+  var Keycode = window.util.Keycode;
   var uploadForm = window.util.uploadForm;
   var imageEditor = window.util.imageEditor;
-  var setScaleValue = window.scale.setScaleValue;
-  var setImageScale = window.scale.setImageScale;
-  var removeEffect = window.filter.removeEffect;
-  var hideEffectLevel = window.filter.hideEffectLevel;
-  var createEffectsHandlers = window.filter.createEffectsHandlers;
-  var removeEffectsHandlers = window.filter.removeEffectsHandlers;
-  var setDefaultDepthValue = window.filterSlider.setDefaultDepthValue;
-  var errorHandler = window.error.sendErrorHandler;
-  var successHandler = window.success.successHandler;
+  var setScaleValue = window.scale.setValue;
+  var setNewScale = window.scale.setNew;
+  var removePreviousEffect = window.effect.remove;
+  var hideEffectLevel = window.effect.hideLevel;
+  var createEffectsHandlers = window.effect.createHandlers;
+  var removeEffectsHandlers = window.effect.removeHandlers;
+  var setDefaultDepthValue = window.effectSlider.setDefaultDepthValue;
+  var errorHandler = window.error.handler;
+  var successHandler = window.success.handler;
 
   var fileUploadButton = document.querySelector('#upload-file');
   var hashtagsInput = uploadForm.querySelector('.text__hashtags');
@@ -26,9 +26,9 @@
     imageEditor.classList.remove('hidden');
     document.body.classList.add('modal-open');
     setScaleValue(SCALE_CONTROL_DEFAULT_VALUE);
-    setImageScale(SCALE_IMAGE_DEFAULT_VALUE);
+    setNewScale(SCALE_IMAGE_DEFAULT_VALUE);
     hideEffectLevel();
-    removeEffect();
+    removePreviousEffect();
     setDefaultDepthValue();
     createEffectsHandlers();
     fileUploadCancel.addEventListener('click', cancelButtonClickHandler);
@@ -51,7 +51,7 @@
   };
 
   var closeKeydownHandler = function (evt) {
-    if (evt.key === ESC_KEY && hashtagsInput !== document.activeElement && descriptionInput !== document.activeElement) {
+    if (evt.key === Keycode.ESC_KEY && hashtagsInput !== document.activeElement && descriptionInput !== document.activeElement) {
       closeImageEditor();
     }
   };

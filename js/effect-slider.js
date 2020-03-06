@@ -91,8 +91,8 @@
 
   effectLevelPin.addEventListener('mousedown', effectLevelPinMousedownHandler);
 
-  window.filterSlider = {
-    effectLevel: effectLevel,
+  window.effectSlider = {
+    level: effectLevel,
     setDefaultDepthValue: setDefaultDepthValue
   };
 })();

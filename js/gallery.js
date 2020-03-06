@@ -15,7 +15,7 @@
     return pictureElement;
   };
 
-  var addToFragment = function (pictures) {
+  var addUsersPictures = function (pictures) {
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < pictures.length; i++) {
@@ -25,7 +25,15 @@
     usersPictures.appendChild(fragment);
   };
 
+  var removeUsersPictures = function () {
+    var shownPictures = usersPictures.querySelectorAll('.picture');
+    for (var i = 0; i < shownPictures.length; i++) {
+      usersPictures.removeChild(shownPictures[i]);
+    }
+  };
+
   window.gallery = {
-    addToFragment: addToFragment
+    addUsersPictures: addUsersPictures,
+    removeUsersPictures: removeUsersPictures
   };
 })();
