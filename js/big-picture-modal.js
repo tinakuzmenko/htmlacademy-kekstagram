@@ -3,29 +3,39 @@
 (function () {
   var Keycode = window.util.Keycode;
   var fillPictureInfo = window.bigPicture.fillInfo;
+  var loadComments = window.bigPicture.loadComments;
 
-  var bigPictureTemplate = document.querySelector('.big-picture');
-  var closePictureButton = bigPictureTemplate.querySelector('#picture-cancel');
   var picturesContainer = document.querySelector('.pictures');
+  var bigPictureTemplate = document.querySelector('.big-picture');
+  var commentsLoader = bigPictureTemplate.querySelector('.comments-loader');
+  var closePictureButton = bigPictureTemplate.querySelector('#picture-cancel');
+  var commentsDataCopy = [];
 
-  var showBigPicture = function (bigPicture) {
-    bigPicture.classList.remove('hidden');
-    return bigPicture;
-  };
+  var loaderClickHandler = function () {
+    loadComments(commentsDataCopy);
 
-  var hideCounts = function (bigPicture) {
-    var commentsCount = bigPicture.querySelector('.social__comment-count');
-    var commentsLoader = bigPicture.querySelector('.comments-loader');
-    commentsCount.classList.add('hidden');
-    commentsLoader.classList.add('hidden');
+    if (commentsDataCopy.length === 0) {
+      commentsLoader.removeEventListener('click', loaderClickHandler);
+      commentsLoader.classList.add('hidden');
+    }
   };
 
   var showPicture = function (target) {
-    var activePicture = showBigPicture(bigPictureTemplate);
     var currentIndex = parseInt(target.dataset.index, 10);
-    fillPictureInfo(activePicture, window.data.elementsList[currentIndex]);
+    var element = window.data.elementsList[currentIndex];
+
+    bigPictureTemplate.classList.remove('hidden');
+    commentsDataCopy = element.comments.slice();
+
+    fillPictureInfo(bigPictureTemplate, element);
+
+    if (element.comments.length > window.util.MAX_COMMENTS_AMOUNT) {
+      commentsLoader.classList.remove('hidden');
+      commentsLoader.addEventListener('click', loaderClickHandler);
+    }
+
+    loadComments(commentsDataCopy);
     document.body.classList.add('modal-open');
-    hideCounts(bigPictureTemplate);
   };
 
   var closePicture = function () {
@@ -34,6 +44,7 @@
 
     closePictureButton.removeEventListener('click', closePictureClickHandler);
     document.removeEventListener('keydown', closePictureKeydownHandler);
+    commentsLoader.removeEventListener('click', loaderClickHandler);
   };
 
   var closePictureClickHandler = function () {
