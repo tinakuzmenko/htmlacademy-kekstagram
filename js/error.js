@@ -51,11 +51,11 @@
     document.addEventListener('click', clickErrorWindowHandler);
   };
 
-  var errorHandler = function (errorMessage, errorButtonText) {
+  var showErrorMessage = function (errorMessage, errorButtonText) {
     createErrorMessage(errorMessage, errorButtonText);
   };
 
   window.error = {
-    handler: errorHandler
+    show: showErrorMessage
   };
 })();

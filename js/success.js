@@ -46,11 +46,11 @@
     document.addEventListener('keydown', keydownSuccessMessageHandler);
   };
 
-  var successHandler = function () {
+  var showSuccessMessage = function () {
     createSuccessMessage();
   };
 
   window.success = {
-    handler: successHandler
+    show: showSuccessMessage
   };
 })();

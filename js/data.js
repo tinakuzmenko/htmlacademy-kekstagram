@@ -2,7 +2,7 @@
 
 (function () {
 
-  var errorHandler = window.error.handler;
+  var errorHandler = window.error.show;
   var addUsersPictures = window.gallery.addUsersPictures;
 
   var imgFilters = document.querySelector('.img-filters');
