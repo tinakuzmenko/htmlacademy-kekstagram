@@ -14,12 +14,10 @@
   };
 
   var removeAdditionalSpaces = function (allHashtags) {
-    var notEmptyHashtags = [];
-    for (var i = 0; i < allHashtags.length; i++) {
-      if (allHashtags[i] !== '') {
-        notEmptyHashtags.push(allHashtags[i]);
-      }
-    }
+    var notEmptyHashtags = allHashtags.filter(function (item) {
+      return item !== '';
+    });
+
     return notEmptyHashtags;
   };
 

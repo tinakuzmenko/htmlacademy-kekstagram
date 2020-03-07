@@ -24,10 +24,10 @@
   var createCommentsFragment = function (commentData) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < commentData.length; i++) {
-      var newComment = renderUserComment(commentData[i]);
+    commentData.forEach(function (item) {
+      var newComment = renderUserComment(item);
       fragment.appendChild(newComment);
-    }
+    });
 
     return fragment;
   };
