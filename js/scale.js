@@ -18,7 +18,7 @@
   };
 
   var setNewScale = function (scaleValue) {
-    var newScale = scaleValue / 100;
+    var newScale = scaleValue / SCALE_MAX_VALUE;
     imageUploadPreview.style.transform = 'scale(' + newScale + ')';
   };
 
