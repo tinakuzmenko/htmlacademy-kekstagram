@@ -26,14 +26,14 @@
     var arrayCopy = array.slice();
     var randomElements = [];
 
-    for (var i = 0; i < MAX_RANDOM_ELEMENTS_AMOUNT; i++) {
-      if (MAX_RANDOM_ELEMENTS_AMOUNT < arrayCopy.length) {
+    if (MAX_RANDOM_ELEMENTS_AMOUNT < arrayCopy.length) {
+      for (var i = 0; i < MAX_RANDOM_ELEMENTS_AMOUNT; i++) {
         var index = getRandomInt(0, arrayCopy.length - 1);
         randomElements.push(arrayCopy[index]);
         arrayCopy.splice(index, 1);
-      } else {
-        randomElements = arrayCopy;
       }
+    } else {
+      randomElements = arrayCopy;
     }
 
     return randomElements;
