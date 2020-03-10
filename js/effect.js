@@ -19,7 +19,7 @@
 
   var removePreviousEffect = function () {
     var classes = Array.from(imageUploadPreview.classList);
-    classes.forEach(function (item) {
+    classes.some(function (item) {
       if (item.match('effects__preview--')) {
         imageUploadPreview.classList.remove(item);
       }
