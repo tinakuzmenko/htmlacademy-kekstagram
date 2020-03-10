@@ -29,7 +29,7 @@
 
     fillPictureInfo(bigPictureTemplate, element);
 
-    if (element.comments.length > window.util.MAX_COMMENTS_AMOUNT) {
+    if (element.comments.length > window.bigPicture.MAX_COMMENTS_AMOUNT) {
       commentsLoader.classList.remove('hidden');
       commentsLoader.addEventListener('click', loaderClickHandler);
     }

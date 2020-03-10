@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var MAX_COMMENTS_AMOUNT = 5;
-
   var Keycode = {
     ESC_KEY: 'Escape',
     ENTER_KEY: 'Enter'
@@ -17,7 +15,6 @@
   };
 
   window.util = {
-    MAX_COMMENTS_AMOUNT: MAX_COMMENTS_AMOUNT,
     Keycode: Keycode,
     uploadForm: uploadForm,
     imageEditor: imageEditor,

@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var MAX_COMMENTS_AMOUNT = 5;
+
   var commentsList = document.querySelector('.social__comments');
   var commentTemplate = commentsList.querySelector('.social__comment');
 
@@ -33,7 +35,7 @@
   };
 
   var loadComments = function (commentsData) {
-    var shownComments = commentsData.splice(0, window.util.MAX_COMMENTS_AMOUNT);
+    var shownComments = commentsData.splice(0, MAX_COMMENTS_AMOUNT);
     var commentsFragment = createCommentsFragment(shownComments);
     commentsList.appendChild(commentsFragment);
   };
@@ -52,6 +54,7 @@
   };
 
   window.bigPicture = {
+    MAX_COMMENTS_AMOUNT: MAX_COMMENTS_AMOUNT,
     fillInfo: fillPictureInfo,
     loadComments: loadComments
   };
