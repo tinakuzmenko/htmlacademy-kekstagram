@@ -4,9 +4,9 @@
   var TIMEOUT_IN_MS = 10000;
   var LOAD_URL = 'https://js.dump.academy/kekstagram/data';
   var SEND_URL = 'https://js.dump.academy/kekstagram';
+  var XHR_READY_STATE_READY = 4;
 
   var Code = {
-    READY: 4,
     SUCCESS: 200,
     REQUEST_ERROR: 400,
     ACCESS_ERROR: 403,
@@ -20,7 +20,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.readyState === Code.READY) {
+      if (xhr.readyState === XHR_READY_STATE_READY) {
         if (xhr.status === Code.SUCCESS) {
           onLoad(xhr.response);
         } else {
