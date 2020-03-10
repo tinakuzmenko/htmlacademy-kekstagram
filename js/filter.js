@@ -5,6 +5,7 @@
 
   var removeUsersPictures = window.gallery.removeUsersPictures;
   var addUsersPictures = window.gallery.addUsersPictures;
+  var getRandomInt = window.util.getRandomInt;
 
   var imgFilters = document.querySelector('.img-filters');
   var defaultButton = imgFilters.querySelector('#filter-default');
@@ -21,20 +22,27 @@
     addUsersPictures(window.data.elementsList);
   };
 
-  var shuffleElements = function (array) {
+  var getRandomElements = function (array) {
     var arrayCopy = array.slice();
+    var randomElements = [];
 
-    arrayCopy.sort(function () {
-      return Math.random() - 0.5;
-    });
+    for (var i = 0; i < MAX_RANDOM_ELEMENTS_AMOUNT; i++) {
+      if (MAX_RANDOM_ELEMENTS_AMOUNT < arrayCopy.length) {
+        var index = getRandomInt(0, arrayCopy.length - 1);
+        randomElements.push(arrayCopy[index]);
+        arrayCopy.splice(index, 1);
+      } else {
+        randomElements = arrayCopy;
+      }
+    }
 
-    return arrayCopy;
+    return randomElements;
   };
 
   var showRandomPictures = function () {
     var data = window.data.elementsList;
-    var randomElements = shuffleElements(data).slice(0, MAX_RANDOM_ELEMENTS_AMOUNT);
-    addUsersPictures(randomElements);
+    var randomPictures = getRandomElements(data);
+    addUsersPictures(randomPictures);
   };
 
   var showDiscussedPictures = function () {
