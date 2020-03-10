@@ -5,7 +5,6 @@
 
   var removeUsersPictures = window.gallery.removeUsersPictures;
   var addUsersPictures = window.gallery.addUsersPictures;
-  var getRandomInt = window.util.getRandomInt;
 
   var imgFilters = document.querySelector('.img-filters');
   var defaultButton = imgFilters.querySelector('#filter-default');
@@ -26,14 +25,8 @@
     var arrayCopy = array.slice();
     var randomElements = [];
 
-    if (MAX_RANDOM_ELEMENTS_AMOUNT < arrayCopy.length) {
-      for (var i = 0; i < MAX_RANDOM_ELEMENTS_AMOUNT; i++) {
-        var index = getRandomInt(0, arrayCopy.length - 1);
-        randomElements.push(arrayCopy[index]);
-        arrayCopy.splice(index, 1);
-      }
-    } else {
-      randomElements = arrayCopy;
+    for (var i = 0; i < MAX_RANDOM_ELEMENTS_AMOUNT; i++) {
+      randomElements.push(arrayCopy.splice(Math.random() * arrayCopy.length, 1)[0]);
     }
 
     return randomElements;
