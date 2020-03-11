@@ -23,11 +23,15 @@
 
   var getRandomElements = function (array) {
     var arrayCopy = array.slice();
-    var randomElements = [];
 
-    for (var i = 0; i < MAX_RANDOM_ELEMENTS_AMOUNT; i++) {
-      randomElements.push(arrayCopy.splice(Math.random() * arrayCopy.length, 1)[0]);
+    for (var i = 0; i < arrayCopy.length; i++) {
+      var randomIndex = Math.floor(Math.random() * (i + 1));
+      var currentElement = arrayCopy[i];
+      arrayCopy[i] = arrayCopy[randomIndex];
+      arrayCopy[randomIndex] = currentElement;
     }
+
+    var randomElements = arrayCopy.slice(0, MAX_RANDOM_ELEMENTS_AMOUNT);
 
     return randomElements;
   };
