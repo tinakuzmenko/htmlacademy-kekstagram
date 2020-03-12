@@ -3,7 +3,6 @@
 (function () {
   var MAX_RANDOM_ELEMENTS_AMOUNT = 10;
 
-  var getRandomArrayElement = window.util.getRandomArrayElement;
   var removeUsersPictures = window.gallery.removeUsersPictures;
   var addUsersPictures = window.gallery.addUsersPictures;
 
@@ -22,17 +21,25 @@
     addUsersPictures(window.data.elementsList);
   };
 
-  var showRandomPictures = function () {
-    var randomElements = [];
+  var getRandomElements = function (array) {
+    var arrayCopy = array.slice();
 
-    while (randomElements.length < MAX_RANDOM_ELEMENTS_AMOUNT) {
-      var newItem = getRandomArrayElement(window.data.elementsList);
-      if (randomElements.indexOf(newItem) === -1) {
-        randomElements.push(newItem);
-      }
+    for (var i = 0; i < arrayCopy.length; i++) {
+      var randomIndex = Math.floor(Math.random() * (i + 1));
+      var currentElement = arrayCopy[i];
+      arrayCopy[i] = arrayCopy[randomIndex];
+      arrayCopy[randomIndex] = currentElement;
     }
 
-    addUsersPictures(randomElements);
+    var randomElements = arrayCopy.slice(0, MAX_RANDOM_ELEMENTS_AMOUNT);
+
+    return randomElements;
+  };
+
+  var showRandomPictures = function () {
+    var data = window.data.elementsList;
+    var randomPictures = getRandomElements(data);
+    addUsersPictures(randomPictures);
   };
 
   var showDiscussedPictures = function () {

@@ -19,11 +19,11 @@
 
   var removePreviousEffect = function () {
     var classes = Array.from(imageUploadPreview.classList);
-    for (var i = 0; i < classes.length; i++) {
-      if (classes[i].match('effects__preview--')) {
-        imageUploadPreview.classList.remove(classes[i]);
+    classes.some(function (item) {
+      if (item.match('effects__preview--')) {
+        imageUploadPreview.classList.remove(item);
       }
-    }
+    });
   };
 
   var showEffectLevel = function () {
@@ -53,15 +53,15 @@
   };
 
   var createEffectsHandlers = function () {
-    for (var i = 0; i < pictureEffects.length; i++) {
-      pictureEffects[i].addEventListener('click', effectClickHandler);
-    }
+    pictureEffects.forEach(function (item) {
+      item.addEventListener('click', effectClickHandler);
+    });
   };
 
   var removeEffectsHandlers = function () {
-    for (var i = 0; i < pictureEffects.length; i++) {
-      pictureEffects[i].removeEventListener('click', effectClickHandler);
-    }
+    pictureEffects.forEach(function (item) {
+      item.removeEventListener('click', effectClickHandler);
+    });
   };
 
   window.effect = {

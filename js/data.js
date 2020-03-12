@@ -2,7 +2,7 @@
 
 (function () {
 
-  var errorHandler = window.error.handler;
+  var errorHandler = window.error.show;
   var addUsersPictures = window.gallery.addUsersPictures;
 
   var imgFilters = document.querySelector('.img-filters');
@@ -21,11 +21,10 @@
   };
 
   var pushElements = function (data) {
-    var elements = [];
-    for (var i = 0; i < data.length; i++) {
-      var newElement = createPictureObject(data[i], i);
-      elements.push(newElement);
-    }
+    var elements = data.map(function (item, index) {
+      var newElement = createPictureObject(item, index);
+      return newElement;
+    });
 
     return elements;
   };

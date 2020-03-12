@@ -18,18 +18,19 @@
   var addUsersPictures = function (pictures) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < pictures.length; i++) {
-      fragment.appendChild(createPictureElement(pictures[i]));
-    }
+    pictures.forEach(function (item) {
+      fragment.appendChild(createPictureElement(item));
+    });
 
     usersPictures.appendChild(fragment);
   };
 
   var removeUsersPictures = function () {
     var shownPictures = usersPictures.querySelectorAll('.picture');
-    for (var i = 0; i < shownPictures.length; i++) {
-      usersPictures.removeChild(shownPictures[i]);
-    }
+
+    shownPictures.forEach(function (item) {
+      usersPictures.removeChild(item);
+    });
   };
 
   window.gallery = {

@@ -14,8 +14,8 @@
   var createEffectsHandlers = window.effect.createHandlers;
   var removeEffectsHandlers = window.effect.removeHandlers;
   var setDefaultDepthValue = window.effectSlider.setDefaultDepthValue;
-  var errorHandler = window.error.handler;
-  var successHandler = window.success.handler;
+  var errorHandler = window.error.show;
+  var successHandler = window.success.show;
 
   var fileUploadButton = document.querySelector('#upload-file');
   var hashtagsInput = uploadForm.querySelector('.text__hashtags');

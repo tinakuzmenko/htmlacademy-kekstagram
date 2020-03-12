@@ -28,29 +28,26 @@
 
   var setNewEffectDepth = function (levelValue) {
     var proportion = levelValue / 100;
-    var effectClasses = Array.from(imageUploadPreview.classList);
 
-    for (var i = 0; i < effectClasses.length; i++) {
-      if (effectClasses[i].match('effects__preview--')) {
-        switch (effectClasses[i]) {
-          case 'effects__preview--chrome':
-            imageUploadPreview.style.filter = 'grayscale(' + (MAX_GRAYSCALE_VALUE * proportion) + ')';
-            break;
-          case 'effects__preview--sepia':
-            imageUploadPreview.style.filter = 'sepia(' + (MAX_SEPIA_VALUE * proportion) + ')';
-            break;
-          case 'effects__preview--marvin':
-            imageUploadPreview.style.filter = 'invert(' + (MAX_INVERT_VALUE * proportion) + '%)';
-            break;
-          case 'effects__preview--phobos':
-            imageUploadPreview.style.filter = 'blur(' + (MAX_BLUR_VALUE * proportion) + 'px)';
-            break;
-          case 'effects__preview--heat':
-            imageUploadPreview.style.filter = 'brightness(' + getValueRange(proportion, MIN_BRIGHTNESS_VALUE, MAX_BRIGHTNESS_VALUE) + ')';
-            break;
-          default:
-            imageUploadPreview.style.filter = '';
-        }
+    if (imageUploadPreview.className.match('effects__preview--')) {
+      switch (imageUploadPreview.className) {
+        case 'effects__preview--chrome':
+          imageUploadPreview.style.filter = 'grayscale(' + (MAX_GRAYSCALE_VALUE * proportion) + ')';
+          break;
+        case 'effects__preview--sepia':
+          imageUploadPreview.style.filter = 'sepia(' + (MAX_SEPIA_VALUE * proportion) + ')';
+          break;
+        case 'effects__preview--marvin':
+          imageUploadPreview.style.filter = 'invert(' + (MAX_INVERT_VALUE * proportion) + '%)';
+          break;
+        case 'effects__preview--phobos':
+          imageUploadPreview.style.filter = 'blur(' + (MAX_BLUR_VALUE * proportion) + 'px)';
+          break;
+        case 'effects__preview--heat':
+          imageUploadPreview.style.filter = 'brightness(' + getValueRange(proportion, MIN_BRIGHTNESS_VALUE, MAX_BRIGHTNESS_VALUE) + ')';
+          break;
+        default:
+          imageUploadPreview.style.filter = '';
       }
     }
   };
