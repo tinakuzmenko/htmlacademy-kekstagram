@@ -41,6 +41,7 @@
     var fragment = document.createDocumentFragment();
 
     errorTitle.textContent = errorMessage;
+    errorTitle.style = 'line-height: 1.5;';
     errorButton.textContent = errorButtonText;
 
     fragment.appendChild(newError);

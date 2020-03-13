@@ -63,4 +63,8 @@
     evt.preventDefault();
     closeImageEditor();
   });
+
+  window.uploadForm = {
+    close: closeImageEditor
+  };
 })();

@@ -5,6 +5,8 @@
 
   var imageEditor = window.util.imageEditor;
   var imageUploadPreview = window.util.imageUploadPreview;
+  var closeImageEditor = window.uploadForm.close;
+  var showErrorMessage = window.error.show;
 
   var uploadInput = document.querySelector('.img-upload__input');
   var effectsPreview = imageEditor.querySelectorAll('.effects__preview');
@@ -29,6 +31,9 @@
       });
 
       reader.readAsDataURL(file);
+    } else {
+      closeImageEditor();
+      showErrorMessage('Недопустимый формат. Фотография должна быть в формате gif, jpg, jpeg или png!', 'Загрузить другую фотографию');
     }
   });
 })();
