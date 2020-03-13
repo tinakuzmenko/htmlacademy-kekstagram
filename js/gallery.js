@@ -6,9 +6,10 @@
 
   var createPictureElement = function (picture) {
     var pictureElement = pictureTemplate.cloneNode(true);
+    var pictureElementImage = pictureElement.querySelector('.picture__img');
 
-    pictureElement.querySelector('.picture__img').src = picture.url;
-    pictureElement.querySelector('.picture__img').dataset.index = picture.id;
+    pictureElementImage.src = picture.url;
+    pictureElementImage.dataset.index = picture.id;
     pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
     pictureElement.querySelector('.picture__likes').textContent = picture.likes;
 

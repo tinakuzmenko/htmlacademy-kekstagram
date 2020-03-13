@@ -19,21 +19,21 @@
       return fileName.endsWith(item);
     });
 
-    if (matches) {
-      var reader = new FileReader();
-
-      reader.addEventListener('load', function () {
-        imageUploadPreview.src = reader.result;
-
-        for (var i = 0; i < effectsPreview.length; i++) {
-          effectsPreview[i].style = 'background-image: url("' + reader.result + '");';
-        }
-      });
-
-      reader.readAsDataURL(file);
-    } else {
+    if (!matches) {
       closeImageEditor();
       showErrorMessage('Недопустимый формат. Фотография должна быть в формате gif, jpg, jpeg или png!', 'Загрузить другую фотографию');
     }
+
+    var reader = new FileReader();
+
+    reader.addEventListener('load', function () {
+      imageUploadPreview.src = reader.result;
+
+      for (var i = 0; i < effectsPreview.length; i++) {
+        effectsPreview[i].style = 'background-image: url("' + reader.result + '");';
+      }
+    });
+
+    reader.readAsDataURL(file);
   });
 })();

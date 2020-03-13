@@ -16,9 +16,10 @@
 
   var renderUserComment = function (comment) {
     var userComment = commentTemplate.cloneNode(true);
+    var userImage = userComment.querySelector('img');
 
-    userComment.querySelector('img').src = comment.avatar;
-    userComment.querySelector('img').alt = comment.name;
+    userImage.src = comment.avatar;
+    userImage.alt = comment.name;
     userComment.querySelector('.social__text').textContent = comment.message;
 
     return userComment;

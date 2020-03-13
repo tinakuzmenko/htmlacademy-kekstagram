@@ -22,14 +22,14 @@
 
   var showPicture = function (selectedPicture) {
     var currentIndex = parseInt(selectedPicture.dataset.index, 10);
-    var currentElement = window.data.picturesList[currentIndex];
+    var currentPicture = window.data.picturesList[currentIndex];
 
     bigPictureTemplate.classList.remove('hidden');
-    commentsDataCopy = currentElement.comments.slice();
+    commentsDataCopy = currentPicture.comments.slice();
 
-    fillPictureInfo(bigPictureTemplate, currentElement);
+    fillPictureInfo(bigPictureTemplate, currentPicture);
 
-    if (currentElement.comments.length > window.bigPicture.MAX_COMMENTS_AMOUNT) {
+    if (currentPicture.comments.length > window.bigPicture.MAX_COMMENTS_AMOUNT) {
       commentsLoader.classList.remove('hidden');
       commentsLoader.addEventListener('click', commentsLoaderClickHandler);
     }
