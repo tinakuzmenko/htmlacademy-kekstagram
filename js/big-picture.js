@@ -13,21 +13,21 @@
     commentsLoader.classList.add('hidden');
   };
 
-  var renderUserComment = function (commentData) {
+  var renderUserComment = function (comment) {
     var userComment = commentTemplate.cloneNode(true);
 
-    userComment.querySelector('img').src = commentData.avatar;
-    userComment.querySelector('img').alt = commentData.name;
-    userComment.querySelector('.social__text').textContent = commentData.message;
+    userComment.querySelector('img').src = comment.avatar;
+    userComment.querySelector('img').alt = comment.name;
+    userComment.querySelector('.social__text').textContent = comment.message;
 
     return userComment;
   };
 
-  var createCommentsFragment = function (commentData) {
+  var createCommentsFragment = function (commentsData) {
     var fragment = document.createDocumentFragment();
 
-    commentData.forEach(function (item) {
-      var newComment = renderUserComment(item);
+    commentsData.forEach(function (comment) {
+      var newComment = renderUserComment(comment);
       fragment.appendChild(newComment);
     });
 
