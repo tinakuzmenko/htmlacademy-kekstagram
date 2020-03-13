@@ -9,20 +9,20 @@
     var successWindow = document.querySelector('.success');
     var successCloseButton = successWindow.querySelector('.success__button');
 
-    successCloseButton.removeEventListener('click', clickSuccessButtonHandler);
-    document.removeEventListener('click', clickSuccessWindowHandler);
-    document.removeEventListener('keydown', keydownSuccessMessageHandler);
+    successCloseButton.removeEventListener('click', successCloseButtonClickHandler);
+    document.removeEventListener('click', documentClickHandler);
+    document.removeEventListener('keydown', documentKeydownHandler);
 
     main.removeChild(successWindow);
   };
 
-  var keydownSuccessMessageHandler = function (evt) {
+  var documentKeydownHandler = function (evt) {
     if (evt.key === Keycode.ESC_KEY) {
       closeSuccessWindow();
     }
   };
 
-  var clickSuccessWindowHandler = function (evt) {
+  var documentClickHandler = function (evt) {
     var successInner = document.querySelector('.success__inner');
 
     if (evt.target !== successInner) {
@@ -30,7 +30,7 @@
     }
   };
 
-  var clickSuccessButtonHandler = function () {
+  var successCloseButtonClickHandler = function () {
     closeSuccessWindow();
   };
 
@@ -44,9 +44,9 @@
     fragment.appendChild(newSuccessMessage);
     main.appendChild(fragment);
 
-    successCloseButton.addEventListener('click', clickSuccessButtonHandler);
-    document.addEventListener('click', clickSuccessWindowHandler);
-    document.addEventListener('keydown', keydownSuccessMessageHandler);
+    successCloseButton.addEventListener('click', successCloseButtonClickHandler);
+    document.addEventListener('click', documentClickHandler);
+    document.addEventListener('keydown', documentKeydownHandler);
   };
 
   window.success = {

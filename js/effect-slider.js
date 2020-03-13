@@ -58,7 +58,7 @@
     var levelLineWidth = effectLevelLine.offsetWidth;
     var startCoords = evt.clientX;
 
-    var effectPinMouseMoveHandler = function (moveEvt) {
+    var effectLevelPinMouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
       var shift = startCoords - moveEvt.clientX;
@@ -76,15 +76,15 @@
       }
     };
 
-    var effectPinMouseUpHandler = function (upEvt) {
+    var effectLevelPinMouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
 
-      document.removeEventListener('mousemove', effectPinMouseMoveHandler);
-      document.removeEventListener('mouseup', effectPinMouseUpHandler);
+      document.removeEventListener('mousemove', effectLevelPinMouseMoveHandler);
+      document.removeEventListener('mouseup', effectLevelPinMouseUpHandler);
     };
 
-    document.addEventListener('mousemove', effectPinMouseMoveHandler);
-    document.addEventListener('mouseup', effectPinMouseUpHandler);
+    document.addEventListener('mousemove', effectLevelPinMouseMoveHandler);
+    document.addEventListener('mouseup', effectLevelPinMouseUpHandler);
   };
 
   effectLevelPin.addEventListener('mousedown', effectLevelPinMousedownHandler);

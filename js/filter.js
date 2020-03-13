@@ -25,15 +25,13 @@
   var shuffleArray = function (array) {
     var arrayCopy = array.slice();
 
-    arrayCopy.forEach(function (item, index) {
-      var randomIndex = Math.floor(Math.random() * (index + 1));
-      var currentElement = item;
+    for (var i = 0; i < arrayCopy.length; i++) {
+      var randomIndex = Math.floor(Math.random() * (i + 1));
+      var currentElement = arrayCopy[i];
 
-      item = arrayCopy[randomIndex];
+      arrayCopy[i] = arrayCopy[randomIndex];
       arrayCopy[randomIndex] = currentElement;
-
-      return;
-    });
+    }
 
     return arrayCopy;
   };

@@ -55,7 +55,7 @@
     return errorMessages;
   };
 
-  var hashtagsKeyupHandler = function () {
+  var hashtagsInputKeyupHandler = function () {
     var inputValue = hashtagsInput.value.toLowerCase();
     var dirtyHashtags = createHashtags(inputValue);
     var cleanHashtags = removeAdditionalSpaces(dirtyHashtags);
@@ -70,5 +70,5 @@
     }
   };
 
-  hashtagsInput.addEventListener('keyup', hashtagsKeyupHandler);
+  hashtagsInput.addEventListener('keyup', hashtagsInputKeyupHandler);
 })();
