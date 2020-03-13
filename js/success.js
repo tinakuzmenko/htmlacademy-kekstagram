@@ -23,7 +23,9 @@
   };
 
   var clickSuccessWindowHandler = function (evt) {
-    if (evt.target !== document.querySelector('.success__inner')) {
+    var successInner = document.querySelector('.success__inner');
+
+    if (evt.target !== successInner) {
       closeSuccessWindow();
     }
   };
@@ -34,9 +36,10 @@
 
   var createSuccessMessage = function () {
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
-    var fragment = document.createDocumentFragment();
+
     var newSuccessMessage = successTemplate.cloneNode(true);
     var successCloseButton = newSuccessMessage.querySelector('.success__button');
+    var fragment = document.createDocumentFragment();
 
     fragment.appendChild(newSuccessMessage);
     main.appendChild(fragment);
@@ -46,11 +49,7 @@
     document.addEventListener('keydown', keydownSuccessMessageHandler);
   };
 
-  var showSuccessMessage = function () {
-    createSuccessMessage();
-  };
-
   window.success = {
-    show: showSuccessMessage
+    createMessage: createSuccessMessage
   };
 })();

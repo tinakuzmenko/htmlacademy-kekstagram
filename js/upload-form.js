@@ -14,8 +14,8 @@
   var createEffectsHandlers = window.effect.createHandlers;
   var removeEffectsHandlers = window.effect.removeHandlers;
   var setDefaultDepthValue = window.effectSlider.setDefaultDepthValue;
-  var errorHandler = window.error.show;
-  var successHandler = window.success.show;
+  var errorHandler = window.error.showMessage;
+  var successHandler = window.success.createMessage;
 
   var fileUploadButton = document.querySelector('#upload-file');
   var hashtagsInput = uploadForm.querySelector('.text__hashtags');
@@ -25,12 +25,14 @@
   var uploadButtonChangeHandler = function () {
     imageEditor.classList.remove('hidden');
     document.body.classList.add('modal-open');
+
     setScaleValue(SCALE_CONTROL_DEFAULT_VALUE);
     setNewScale(SCALE_IMAGE_DEFAULT_VALUE);
     hideEffectLevel();
     removePreviousEffect();
     setDefaultDepthValue();
     createEffectsHandlers();
+
     fileUploadCancel.addEventListener('click', cancelButtonClickHandler);
     document.addEventListener('keydown', closeKeydownHandler);
   };
@@ -59,8 +61,9 @@
   fileUploadButton.addEventListener('change', uploadButtonChangeHandler);
 
   uploadForm.addEventListener('submit', function (evt) {
-    window.backend.send(new FormData(uploadForm), successHandler, errorHandler);
     evt.preventDefault();
+
+    window.backend.send(new FormData(uploadForm), successHandler, errorHandler);
     closeImageEditor();
   });
 

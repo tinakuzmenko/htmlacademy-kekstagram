@@ -6,7 +6,7 @@
   var imageEditor = window.util.imageEditor;
   var imageUploadPreview = window.util.imageUploadPreview;
   var closeImageEditor = window.uploadForm.close;
-  var showErrorMessage = window.error.show;
+  var showErrorMessage = window.error.showMessage;
 
   var uploadInput = document.querySelector('.img-upload__input');
   var effectsPreview = imageEditor.querySelectorAll('.effects__preview');

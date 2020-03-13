@@ -54,6 +54,7 @@
 
   var effectLevelPinMousedownHandler = function (evt) {
     evt.preventDefault();
+
     var levelLineWidth = effectLevelLine.offsetWidth;
     var startCoords = evt.clientX;
 

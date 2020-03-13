@@ -10,10 +10,6 @@
   var imageEditor = uploadForm.querySelector('.img-upload__overlay');
   var imageUploadPreview = imageEditor.querySelector('.img-upload__preview img');
 
-  var getRandomInt = function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
   var getValueRange = function (value, min, max) {
     return value * (max - min) + min;
   };
@@ -23,7 +19,6 @@
     uploadForm: uploadForm,
     imageEditor: imageEditor,
     imageUploadPreview: imageUploadPreview,
-    getRandomInt: getRandomInt,
     getValueRange: getValueRange
   };
 })();

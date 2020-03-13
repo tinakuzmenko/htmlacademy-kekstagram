@@ -18,10 +18,11 @@
   };
 
   var removePreviousEffect = function () {
-    var classes = Array.from(imageUploadPreview.classList);
-    classes.some(function (item) {
-      if (item.match('effects__preview--')) {
-        imageUploadPreview.classList.remove(item);
+    var imageClasses = Array.from(imageUploadPreview.classList);
+
+    imageClasses.some(function (imageClass) {
+      if (imageClass.match('effects__preview--')) {
+        imageUploadPreview.classList.remove(imageClass);
       }
     });
   };
@@ -53,14 +54,14 @@
   };
 
   var createEffectsHandlers = function () {
-    pictureEffects.forEach(function (item) {
-      item.addEventListener('click', effectClickHandler);
+    pictureEffects.forEach(function (effect) {
+      effect.addEventListener('click', effectClickHandler);
     });
   };
 
   var removeEffectsHandlers = function () {
-    pictureEffects.forEach(function (item) {
-      item.removeEventListener('click', effectClickHandler);
+    pictureEffects.forEach(function (effect) {
+      effect.removeEventListener('click', effectClickHandler);
     });
   };
 

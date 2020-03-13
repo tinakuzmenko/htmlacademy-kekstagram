@@ -9,8 +9,8 @@
   var imageUploadPreview = window.util.imageUploadPreview;
 
   var scaleContainer = imageEditor.querySelector('.scale');
-  var buttonScaleSmaller = scaleContainer.querySelector('.scale__control--smaller');
-  var buttonScaleBigger = scaleContainer.querySelector('.scale__control--bigger');
+  var scaleControlSmaller = scaleContainer.querySelector('.scale__control--smaller');
+  var scaleControlBigger = scaleContainer.querySelector('.scale__control--bigger');
   var scaleControlValue = scaleContainer.querySelector('.scale__control--value');
 
   var setScaleValue = function (value) {
@@ -19,6 +19,7 @@
 
   var setNewScale = function (scaleValue) {
     var newScale = scaleValue / SCALE_MAX_VALUE;
+
     imageUploadPreview.style.transform = 'scale(' + newScale + ')';
   };
 
@@ -28,38 +29,40 @@
     return value;
   };
 
-  var decreaseScaleValue = function () {
+  var decreaseScaleValue = function (value) {
+    var decreasedValue = value - SCALE_CHANGE_STEP;
+
+    return decreasedValue;
+  };
+
+  var increaseScaleValue = function (value) {
+    var increasedValue = value + SCALE_CHANGE_STEP;
+
+    return increasedValue;
+  };
+
+  var scaleControlSmallerClickHandler = function () {
     var scaleValue = getValue();
+
     if (scaleValue > SCALE_MIN_VALUE) {
-      scaleValue = scaleValue - SCALE_CHANGE_STEP;
+      var newValue = decreaseScaleValue(scaleValue);
+      setNewScale(newValue);
+      scaleControlValue.value = newValue + '%';
     }
-
-    return scaleValue;
   };
 
-  var increaseScaleValue = function () {
+  var scaleControlBiggerClickHandler = function () {
     var scaleValue = getValue();
+
     if (scaleValue < SCALE_MAX_VALUE) {
-      scaleValue = scaleValue + SCALE_CHANGE_STEP;
+      var newValue = increaseScaleValue(scaleValue);
+      setNewScale(newValue);
+      scaleControlValue.value = newValue + '%';
     }
-
-    return scaleValue;
   };
 
-  var scaleSmallerClickHandler = function () {
-    var newValue = decreaseScaleValue();
-    setNewScale(newValue);
-    scaleControlValue.value = newValue + '%';
-  };
-
-  var scaleBiggerClickHandler = function () {
-    var newValue = increaseScaleValue();
-    setNewScale(newValue);
-    scaleControlValue.value = newValue + '%';
-  };
-
-  buttonScaleSmaller.addEventListener('click', scaleSmallerClickHandler);
-  buttonScaleBigger.addEventListener('click', scaleBiggerClickHandler);
+  scaleControlSmaller.addEventListener('click', scaleControlSmallerClickHandler);
+  scaleControlBigger.addEventListener('click', scaleControlBiggerClickHandler);
 
   window.scale = {
     setValue: setScaleValue,

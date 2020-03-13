@@ -7,44 +7,47 @@
   var addUsersPictures = window.gallery.addUsersPictures;
 
   var imgFilters = document.querySelector('.img-filters');
-  var defaultButton = imgFilters.querySelector('#filter-default');
-  var randomButton = imgFilters.querySelector('#filter-random');
-  var discussedButton = imgFilters.querySelector('#filter-discussed');
+  var defaultFilter = imgFilters.querySelector('#filter-default');
+  var randomFilter = imgFilters.querySelector('#filter-random');
+  var discussedFilter = imgFilters.querySelector('#filter-discussed');
 
-  var toggleActiveFilter = function (button) {
-    var activeElement = imgFilters.querySelector('.img-filters__button--active');
-    activeElement.classList.remove('img-filters__button--active');
-    button.classList.add('img-filters__button--active');
+  var toggleActiveFilter = function (selectedFilter) {
+    var activeFilter = imgFilters.querySelector('.img-filters__button--active');
+
+    activeFilter.classList.remove('img-filters__button--active');
+    selectedFilter.classList.add('img-filters__button--active');
   };
 
   var showDefaultPictures = function () {
-    addUsersPictures(window.data.elementsList);
+    addUsersPictures(window.data.picturesList);
   };
 
-  var getRandomElements = function (array) {
+  var shuffleArray = function (array) {
     var arrayCopy = array.slice();
 
-    for (var i = 0; i < arrayCopy.length; i++) {
-      var randomIndex = Math.floor(Math.random() * (i + 1));
-      var currentElement = arrayCopy[i];
-      arrayCopy[i] = arrayCopy[randomIndex];
+    arrayCopy.forEach(function (item, index) {
+      var randomIndex = Math.floor(Math.random() * (index + 1));
+      var currentElement = item;
+
+      item = arrayCopy[randomIndex];
       arrayCopy[randomIndex] = currentElement;
-    }
 
-    var randomElements = arrayCopy.slice(0, MAX_RANDOM_ELEMENTS_AMOUNT);
+      return;
+    });
 
-    return randomElements;
+    return arrayCopy;
   };
 
   var showRandomPictures = function () {
-    var data = window.data.elementsList;
-    var randomPictures = getRandomElements(data);
-    addUsersPictures(randomPictures);
+    var picturesList = window.data.picturesList;
+    var randomElements = shuffleArray(picturesList).slice(0, MAX_RANDOM_ELEMENTS_AMOUNT);
+
+    addUsersPictures(randomElements);
   };
 
   var showDiscussedPictures = function () {
-    var elementsListCopy = window.data.elementsList.slice();
-    var sortedList = elementsListCopy.sort(function (second, first) {
+    var picturesListCopy = window.data.picturesList.slice();
+    var sortedList = picturesListCopy.sort(function (second, first) {
       return first.comments.length - second.comments.length;
     });
 
@@ -56,13 +59,13 @@
     removeUsersPictures();
 
     switch (evt.target) {
-      case defaultButton:
+      case defaultFilter:
         showDefaultPictures();
         break;
-      case randomButton:
+      case randomFilter:
         showRandomPictures();
         break;
-      case discussedButton:
+      case discussedFilter:
         showDiscussedPictures();
         break;
       default:

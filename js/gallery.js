@@ -18,8 +18,8 @@
   var addUsersPictures = function (pictures) {
     var fragment = document.createDocumentFragment();
 
-    pictures.forEach(function (item) {
-      fragment.appendChild(createPictureElement(item));
+    pictures.forEach(function (picture) {
+      fragment.appendChild(createPictureElement(picture));
     });
 
     usersPictures.appendChild(fragment);
@@ -28,8 +28,8 @@
   var removeUsersPictures = function () {
     var shownPictures = usersPictures.querySelectorAll('.picture');
 
-    shownPictures.forEach(function (item) {
-      usersPictures.removeChild(item);
+    shownPictures.forEach(function (picture) {
+      usersPictures.removeChild(picture);
     });
   };
 

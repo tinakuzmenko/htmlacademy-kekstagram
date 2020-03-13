@@ -9,6 +9,7 @@
   var hideCounts = function (bigPicture) {
     var commentsCount = bigPicture.querySelector('.social__comment-count');
     var commentsLoader = bigPicture.querySelector('.comments-loader');
+
     commentsCount.classList.add('hidden');
     commentsLoader.classList.add('hidden');
   };
@@ -28,6 +29,7 @@
 
     commentsData.forEach(function (comment) {
       var newComment = renderUserComment(comment);
+
       fragment.appendChild(newComment);
     });
 
@@ -37,6 +39,7 @@
   var loadComments = function (commentsData) {
     var shownComments = commentsData.splice(0, MAX_COMMENTS_AMOUNT);
     var commentsFragment = createCommentsFragment(shownComments);
+
     commentsList.appendChild(commentsFragment);
   };
 

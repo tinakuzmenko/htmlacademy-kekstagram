@@ -17,7 +17,9 @@
   };
 
   var clickErrorWindowHandler = function (evt) {
-    if (evt.target !== document.querySelector('.error__inner')) {
+    var errorInner = document.querySelector('.error__inner');
+
+    if (evt.target !== errorInner) {
       closeErrorMessage();
     }
   };
@@ -34,10 +36,11 @@
 
   var createErrorMessage = function (errorMessage, errorButtonText) {
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-    var newError = errorTemplate.cloneNode(true);
 
+    var newError = errorTemplate.cloneNode(true);
     var errorTitle = newError.querySelector('.error__title');
     var errorButton = newError.querySelector('.error__button');
+
     var fragment = document.createDocumentFragment();
 
     errorTitle.textContent = errorMessage;
@@ -57,6 +60,6 @@
   };
 
   window.error = {
-    show: showErrorMessage
+    showMessage: showErrorMessage
   };
 })();

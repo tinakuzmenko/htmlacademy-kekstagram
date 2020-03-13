@@ -63,6 +63,7 @@
   var load = function (onLoad, onError) {
     var xhrLoad = new XMLHttpRequest();
     var errorButtonText = 'Закрыть';
+
     xhrLoad.open('GET', LOAD_URL);
     processServerStatus(xhrLoad, onLoad, onError, errorButtonText);
     xhrLoad.send();
@@ -71,6 +72,7 @@
   var send = function (data, onLoad, onError) {
     var xhrSend = new XMLHttpRequest();
     var errorButtonText = 'Загрузить другой файл';
+
     xhrSend.open('POST', SEND_URL);
     processServerStatus(xhrSend, onLoad, onError, errorButtonText);
     xhrSend.send(data);

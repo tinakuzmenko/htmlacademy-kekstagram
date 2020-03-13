@@ -20,16 +20,16 @@
     }
   };
 
-  var showPicture = function (target) {
-    var currentIndex = parseInt(target.dataset.index, 10);
-    var element = window.data.elementsList[currentIndex];
+  var showPicture = function (selectedPicture) {
+    var currentIndex = parseInt(selectedPicture.dataset.index, 10);
+    var currentElement = window.data.picturesList[currentIndex];
 
     bigPictureTemplate.classList.remove('hidden');
-    commentsDataCopy = element.comments.slice();
+    commentsDataCopy = currentElement.comments.slice();
 
-    fillPictureInfo(bigPictureTemplate, element);
+    fillPictureInfo(bigPictureTemplate, currentElement);
 
-    if (element.comments.length > window.bigPicture.MAX_COMMENTS_AMOUNT) {
+    if (currentElement.comments.length > window.bigPicture.MAX_COMMENTS_AMOUNT) {
       commentsLoader.classList.remove('hidden');
       commentsLoader.addEventListener('click', loaderClickHandler);
     }
