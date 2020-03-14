@@ -11,7 +11,7 @@
   var uploadInput = document.querySelector('.img-upload__input');
   var effectsPreview = imageEditor.querySelectorAll('.effects__preview');
 
-  uploadInput.addEventListener('change', function () {
+  var uploadInputChangeHandler = function () {
     var file = uploadInput.files[0];
     var fileName = file.name.toLowerCase();
 
@@ -35,5 +35,7 @@
     });
 
     reader.readAsDataURL(file);
-  });
+  };
+
+  uploadInput.addEventListener('change', uploadInputChangeHandler);
 })();

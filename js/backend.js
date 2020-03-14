@@ -85,6 +85,6 @@
 
   window.backend = {
     load: load,
-    send: send,
+    send: send
   };
 })();
