@@ -32,6 +32,7 @@
     removePreviousEffect();
     setDefaultDepthValue();
     createEffectsHandlers();
+    hashtagsInput.focus();
 
     fileUploadCancel.addEventListener('click', fileUploadCancelClickHandler);
     document.addEventListener('keydown', documentKeydownHandler);
