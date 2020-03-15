@@ -11,27 +11,27 @@
   var closePictureButton = bigPictureTemplate.querySelector('#picture-cancel');
   var commentsDataCopy = [];
 
-  var loaderClickHandler = function () {
+  var commentsLoaderClickHandler = function () {
     loadComments(commentsDataCopy);
 
     if (commentsDataCopy.length === 0) {
-      commentsLoader.removeEventListener('click', loaderClickHandler);
+      commentsLoader.removeEventListener('click', commentsLoaderClickHandler);
       commentsLoader.classList.add('hidden');
     }
   };
 
-  var showPicture = function (target) {
-    var currentIndex = parseInt(target.dataset.index, 10);
-    var element = window.data.elementsList[currentIndex];
+  var showPicture = function (selectedPicture) {
+    var currentIndex = parseInt(selectedPicture.dataset.index, 10);
+    var currentPicture = window.data.picturesList[currentIndex];
 
     bigPictureTemplate.classList.remove('hidden');
-    commentsDataCopy = element.comments.slice();
+    commentsDataCopy = currentPicture.comments.slice();
 
-    fillPictureInfo(bigPictureTemplate, element);
+    fillPictureInfo(bigPictureTemplate, currentPicture);
 
-    if (element.comments.length > window.bigPicture.MAX_COMMENTS_AMOUNT) {
+    if (currentPicture.comments.length > window.bigPicture.MAX_COMMENTS_AMOUNT) {
       commentsLoader.classList.remove('hidden');
-      commentsLoader.addEventListener('click', loaderClickHandler);
+      commentsLoader.addEventListener('click', commentsLoaderClickHandler);
     }
 
     loadComments(commentsDataCopy);
@@ -42,27 +42,27 @@
     bigPictureTemplate.classList.add('hidden');
     document.body.classList.remove('modal-open');
 
-    closePictureButton.removeEventListener('click', closePictureClickHandler);
-    document.removeEventListener('keydown', closePictureKeydownHandler);
-    commentsLoader.removeEventListener('click', loaderClickHandler);
+    closePictureButton.removeEventListener('click', closePictureButtonClickHandler);
+    document.removeEventListener('keydown', closePictureButtonKeydownHandler);
+    commentsLoader.removeEventListener('click', commentsLoaderClickHandler);
   };
 
-  var closePictureClickHandler = function () {
+  var closePictureButtonClickHandler = function () {
     closePicture();
   };
 
-  var closePictureKeydownHandler = function (evt) {
+  var closePictureButtonKeydownHandler = function (evt) {
     if (evt.key === Keycode.ESC_KEY) {
       closePicture();
     }
   };
 
   var addCloseHandlers = function () {
-    closePictureButton.addEventListener('click', closePictureClickHandler);
-    document.addEventListener('keydown', closePictureKeydownHandler);
+    closePictureButton.addEventListener('click', closePictureButtonClickHandler);
+    document.addEventListener('keydown', closePictureButtonKeydownHandler);
   };
 
-  var showPictureClickHandler = function (evt) {
+  var picturesContainerClickHandler = function (evt) {
     var evtTarget = evt.target;
     if (evtTarget.classList.contains('picture__img')) {
       showPicture(evtTarget);
@@ -70,7 +70,7 @@
     }
   };
 
-  var showPictureKeydownHandler = function (evt) {
+  var picturesContainerKeydownHandler = function (evt) {
     if (evt.key === Keycode.ENTER_KEY && evt.target.classList.contains('picture')) {
       evt.preventDefault();
       var targetImage = evt.target.querySelector('.picture__img');
@@ -79,6 +79,6 @@
     }
   };
 
-  picturesContainer.addEventListener('click', showPictureClickHandler);
-  picturesContainer.addEventListener('keydown', showPictureKeydownHandler);
+  picturesContainer.addEventListener('click', picturesContainerClickHandler);
+  picturesContainer.addEventListener('keydown', picturesContainerKeydownHandler);
 })();

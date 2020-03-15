@@ -1,41 +1,40 @@
 'use strict';
 
 (function () {
-
-  var errorHandler = window.error.show;
+  var errorHandler = window.error.showMessage;
   var addUsersPictures = window.gallery.addUsersPictures;
 
   var imgFilters = document.querySelector('.img-filters');
-  var elementsList = [];
+  var picturesList = [];
 
-  var createPictureObject = function (element, index) {
+  var createPictureObject = function (picture, index) {
     var pictureObject = {
-      url: element.url,
-      description: element.description,
-      likes: element.likes,
-      comments: element.comments,
+      url: picture.url,
+      description: picture.description,
+      likes: picture.likes,
+      comments: picture.comments,
       id: index
     };
 
     return pictureObject;
   };
 
-  var pushElements = function (data) {
-    var elements = data.map(function (item, index) {
-      var newElement = createPictureObject(item, index);
-      return newElement;
+  var createPicturesArray = function (data) {
+    var pictures = data.map(function (item, index) {
+      var newPicture = createPictureObject(item, index);
+      return newPicture;
     });
 
-    return elements;
+    return pictures;
   };
 
   var loadSuccessHandler = function (data) {
-    elementsList = pushElements(data);
-    addUsersPictures(elementsList);
+    picturesList = createPicturesArray(data);
+    addUsersPictures(picturesList);
     imgFilters.classList.remove('img-filters--inactive');
 
     window.data = {
-      elementsList: elementsList,
+      picturesList: picturesList,
     };
   };
 

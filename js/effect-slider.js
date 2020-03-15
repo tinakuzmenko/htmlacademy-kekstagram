@@ -2,6 +2,7 @@
 
 (function () {
   var DEFAULT_EFFECT_LEVEL = 100;
+  var MAX_PERCENT_VALUE = 100;
   var MAX_GRAYSCALE_VALUE = 1;
   var MAX_SEPIA_VALUE = 1;
   var MAX_INVERT_VALUE = 100;
@@ -27,7 +28,7 @@
   };
 
   var setNewEffectDepth = function (levelValue) {
-    var proportion = levelValue / 100;
+    var proportion = levelValue / MAX_PERCENT_VALUE;
 
     if (imageUploadPreview.className.match('effects__preview--')) {
       switch (imageUploadPreview.className) {
@@ -54,10 +55,11 @@
 
   var effectLevelPinMousedownHandler = function (evt) {
     evt.preventDefault();
+
     var levelLineWidth = effectLevelLine.offsetWidth;
     var startCoords = evt.clientX;
 
-    var effectPinMouseMoveHandler = function (moveEvt) {
+    var effectLevelPinMouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
       var shift = startCoords - moveEvt.clientX;
@@ -69,21 +71,21 @@
         var pinPoint = pinCoordX / effectLevelLine.offsetWidth;
 
         effectLevelPin.style.left = pinCoordX + 'px';
-        effectLevelValue.value = Math.round(pinPoint * 100);
-        effectLevelDepth.style.width = Math.round(pinPoint * 100) + '%';
+        effectLevelValue.value = Math.round(pinPoint * MAX_PERCENT_VALUE);
+        effectLevelDepth.style.width = Math.round(pinPoint * MAX_PERCENT_VALUE) + '%';
         setNewEffectDepth(effectLevelValue.value);
       }
     };
 
-    var effectPinMouseUpHandler = function (upEvt) {
+    var effectLevelPinMouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
 
-      document.removeEventListener('mousemove', effectPinMouseMoveHandler);
-      document.removeEventListener('mouseup', effectPinMouseUpHandler);
+      document.removeEventListener('mousemove', effectLevelPinMouseMoveHandler);
+      document.removeEventListener('mouseup', effectLevelPinMouseUpHandler);
     };
 
-    document.addEventListener('mousemove', effectPinMouseMoveHandler);
-    document.addEventListener('mouseup', effectPinMouseUpHandler);
+    document.addEventListener('mousemove', effectLevelPinMouseMoveHandler);
+    document.addEventListener('mouseup', effectLevelPinMouseUpHandler);
   };
 
   effectLevelPin.addEventListener('mousedown', effectLevelPinMousedownHandler);

@@ -6,62 +6,63 @@
   var HASHTAG_PATTERN = /^([#]{1})([0-9a-zа-яё]{1,19})$/g;
 
   var uploadForm = window.util.uploadForm;
+
   var hashtagsInput = uploadForm.querySelector('.text__hashtags');
 
   var createHashtags = function (inputString) {
     var hashtags = inputString.split(' ');
+
     return hashtags;
   };
 
   var removeAdditionalSpaces = function (allHashtags) {
-    var notEmptyHashtags = allHashtags.filter(function (item) {
-      return item !== '';
+    var notEmptyHashtags = allHashtags.filter(function (hashtag) {
+      return hashtag !== '';
     });
 
     return notEmptyHashtags;
   };
 
-  var pushErrorMessage = function (message, errorMessages) {
-    if (errorMessages.indexOf(message) === -1) {
-      errorMessages.push(message);
+  var pushErrorMessage = function (errorMessage, errorMessages) {
+    if (errorMessages.indexOf(errorMessage) === -1) {
+      errorMessages.push(errorMessage);
     }
 
     return errorMessages;
   };
 
-  var createValidityMessages = function (notEmptyHashtags) {
-    var validityMessages = [];
+  var validateHashtags = function (notEmptyHashtags) {
+    var errorMessages = [];
 
     if (notEmptyHashtags.length > MAX_HASHTAGS_AMOUNT) {
-      pushErrorMessage('Хеш-тегов не должно быть больше ' + MAX_HASHTAGS_AMOUNT + ' .', validityMessages);
+      pushErrorMessage('Хеш-тегов не должно быть больше ' + MAX_HASHTAGS_AMOUNT + ' .', errorMessages);
     }
 
-    notEmptyHashtags.forEach(function (item, index) {
-      var hashtag = item;
+    notEmptyHashtags.forEach(function (hashtag, index) {
       if (!hashtag.startsWith('#')) {
-        pushErrorMessage('Хеш-тег должен начинаться с символа решетки (#).', validityMessages);
+        pushErrorMessage('Хеш-тег должен начинаться с символа решетки (#).', errorMessages);
       } else if (hashtag.length === 1) {
-        pushErrorMessage('Хеш-тег не может состоять из одного символа.', validityMessages);
+        pushErrorMessage('Хеш-тег не может состоять из одного символа.', errorMessages);
       } else if (hashtag.length > MAX_HASHTAG_CHARACTERS) {
-        pushErrorMessage('Хеш-тег не может состоять из более чем ' + MAX_HASHTAG_CHARACTERS + ' символов.', validityMessages);
+        pushErrorMessage('Хеш-тег не может состоять из более чем ' + MAX_HASHTAG_CHARACTERS + ' символов.', errorMessages);
       } else if (!hashtag.match(HASHTAG_PATTERN)) {
-        pushErrorMessage('Хеш-тег должен состоять только из букв и цифр.', validityMessages);
+        pushErrorMessage('Хеш-тег должен состоять только из букв и цифр.', errorMessages);
       } else if (notEmptyHashtags.indexOf(hashtag, index + 1) !== -1) {
-        pushErrorMessage('Хеш-теги не должны повторяться.', validityMessages);
+        pushErrorMessage('Хеш-теги не должны повторяться.', errorMessages);
       }
     });
 
-    return validityMessages;
+    return errorMessages;
   };
 
-  var hashtagsKeyupHandler = function () {
+  var hashtagsInputKeyupHandler = function () {
     var inputValue = hashtagsInput.value.toLowerCase();
     var dirtyHashtags = createHashtags(inputValue);
     var cleanHashtags = removeAdditionalSpaces(dirtyHashtags);
-    var errors = createValidityMessages(cleanHashtags);
+    var errorMessages = validateHashtags(cleanHashtags);
 
-    if (errors.length !== 0) {
-      hashtagsInput.setCustomValidity(errors.join(' \n'));
+    if (errorMessages.length !== 0) {
+      hashtagsInput.setCustomValidity(errorMessages.join(' \n'));
       hashtagsInput.style.border = '2px solid #e90000';
     } else {
       hashtagsInput.setCustomValidity('');
@@ -69,5 +70,5 @@
     }
   };
 
-  hashtagsInput.addEventListener('keyup', hashtagsKeyupHandler);
+  hashtagsInput.addEventListener('keyup', hashtagsInputKeyupHandler);
 })();
