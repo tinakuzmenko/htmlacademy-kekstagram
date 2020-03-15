@@ -18,13 +18,11 @@
   };
 
   var removePreviousEffect = function () {
-    var imageClasses = Array.from(imageUploadPreview.classList);
+    var effectClass = imageUploadPreview.className;
 
-    imageClasses.some(function (imageClass) {
-      if (imageClass.match('effects__preview--')) {
-        imageUploadPreview.classList.remove(imageClass);
-      }
-    });
+    if (effectClass.match('effects__preview--')) {
+      imageUploadPreview.classList.remove(effectClass);
+    }
   };
 
   var showEffectLevel = function () {
