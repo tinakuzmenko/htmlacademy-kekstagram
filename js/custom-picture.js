@@ -29,9 +29,9 @@
     reader.addEventListener('load', function () {
       imageUploadPreview.src = reader.result;
 
-      for (var i = 0; i < effectsPreview.length; i++) {
-        effectsPreview[i].style = 'background-image: url("' + reader.result + '");';
-      }
+      effectsPreview.forEach(function (preview) {
+        preview.style = 'background-image: url("' + reader.result + '")';
+      });
     });
 
     reader.readAsDataURL(file);
