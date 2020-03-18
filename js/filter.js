@@ -24,11 +24,11 @@
 
   var shuffleArray = function (array) {
     var arrayCopy = array.slice();
+    var iterations = MAX_RANDOM_ELEMENTS_AMOUNT < arrayCopy.length ? MAX_RANDOM_ELEMENTS_AMOUNT : arrayCopy.length - 1;
 
-    for (var i = 0; i < arrayCopy.length; i++) {
-      var randomIndex = Math.floor(Math.random() * (i + 1));
+    for (var i = 0; i < iterations; i++) {
+      var randomIndex = Math.floor(Math.random() * (arrayCopy.length - i)) + i;
       var currentElement = arrayCopy[i];
-
       arrayCopy[i] = arrayCopy[randomIndex];
       arrayCopy[randomIndex] = currentElement;
     }
