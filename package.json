@@ -1,6 +1,6 @@
 {
   "name": "kekstagram",
-  "version": "19.0.0",
+  "version": "2.0.0",
   "private": true,
   "description": "Личный проект «Кекстаграм» от HTML Academy",
   "repository": {
@@ -11,7 +11,7 @@
     "url": "https://github.com/htmlacademy-javascript/608749-kekstagram-19/issues"
   },
   "devDependencies": {
-    "eslint": "6.3.0",
+    "eslint": "6.8.0",
     "eslint-config-htmlacademy": "0.5.2"
   },
   "license": "MIT",
@@ -20,6 +20,6 @@
     "test": "eslint js/"
   },
   "engines": {
-    "node": "8.11"
+    "node": "12"
   }
 }

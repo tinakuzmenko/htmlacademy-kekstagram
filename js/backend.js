@@ -2,8 +2,8 @@
 
 (function () {
   var TIMEOUT_IN_MS = 10000;
-  var LOAD_URL = 'https://javascript.pages.academy/kekstagram/data';
-  var SEND_URL = 'https://javascript.pages.academy/kekstagram';
+  var LOAD_URL = 'https://23.javascript.pages.academy/kekstagram/data';
+  var SEND_URL = 'https://23.javascript.pages.academy/kekstagram';
   var XHR_READY_STATE_READY = 4;
 
   var Code = {
